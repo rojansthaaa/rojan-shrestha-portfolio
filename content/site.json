@@ -1,0 +1,102 @@
+{
+  "artist": {
+    "nameDevanagari": "रोजन श्रेष्ठ",
+    "name": "Rojan Shrestha",
+    "role": "Photographer",
+    "email": "rajanstha911@gmail.com",
+    "phone": "+977 984 907 4057",
+    "social": {
+      "facebook": "#",
+      "instagram": "#",
+      "twitter": "#",
+      "youtube": "#"
+    }
+  },
+  "home": {
+    "photo": "images/home/hero.jpg",
+    "alt": "Black and white street photograph: a figure silhouetted against bright sun flare near a colonnaded building."
+  },
+  "about": {
+    "statement": "I'm drawn to the moments that happen at the edge of the frame — light before it's ready, and people when they've forgotten the camera is there.",
+    "facts": [
+      "Photographer, based in Kathmandu, Nepal",
+      "Working across editorial, personal, and commissioned projects",
+      "Available for assignments & prints"
+    ]
+  },
+  "workCategories": [
+    {
+      "id": "editorial",
+      "label": "Editorial",
+      "text": "Editorial commissions will be listed here."
+    },
+    {
+      "id": "tearsheet",
+      "label": "Tearsheet",
+      "text": "Published tearsheets will be listed here."
+    }
+  ],
+  "pieces": [
+    {
+      "title": "If you could do it all again",
+      "slug": "if-you-could-do-it-all-again",
+      "images": [
+        "images/if-you-could-do-it-all-again/01.jpg",
+        "images/if-you-could-do-it-all-again/02.jpg",
+        "images/if-you-could-do-it-all-again/03.jpg",
+        "images/if-you-could-do-it-all-again/04.jpg",
+        "images/if-you-could-do-it-all-again/05.jpg",
+        "images/if-you-could-do-it-all-again/07.jpg",
+        "images/if-you-could-do-it-all-again/08.jpg",
+        "images/if-you-could-do-it-all-again/09.jpg",
+        "images/if-you-could-do-it-all-again/10.jpg",
+        "images/if-you-could-do-it-all-again/11.jpg",
+        "images/if-you-could-do-it-all-again/12.jpg",
+        "images/if-you-could-do-it-all-again/13.jpg",
+        "images/if-you-could-do-it-all-again/14.jpg",
+        "images/if-you-could-do-it-all-again/15.jpg",
+        "images/if-you-could-do-it-all-again/16.jpg",
+        "images/if-you-could-do-it-all-again/17.jpg",
+        "images/if-you-could-do-it-all-again/18.jpg",
+        "images/if-you-could-do-it-all-again/19.jpg",
+        "images/if-you-could-do-it-all-again/20.jpg",
+        "images/if-you-could-do-it-all-again/21.jpg",
+        "images/if-you-could-do-it-all-again/22.jpg",
+        "images/if-you-could-do-it-all-again/23.jpg",
+        "images/if-you-could-do-it-all-again/24.jpg",
+        "images/if-you-could-do-it-all-again/25.jpg",
+        "images/if-you-could-do-it-all-again/26.jpg",
+        "images/if-you-could-do-it-all-again/27.jpg"
+      ]
+    },
+    {
+      "title": "Bitter Sugar",
+      "slug": "bitter-sugar",
+      "images": [
+        "images/bitter-sugar/01.jpg",
+        "images/bitter-sugar/02.jpg",
+        "images/bitter-sugar/03.jpg",
+        "images/bitter-sugar/04.jpg",
+        "images/bitter-sugar/05.jpg",
+        "images/bitter-sugar/06.jpg",
+        "images/bitter-sugar/07.jpg",
+        "images/bitter-sugar/08.jpg",
+        "images/bitter-sugar/09.jpg",
+        "images/bitter-sugar/10.jpg",
+        "images/bitter-sugar/11.jpg",
+        "images/bitter-sugar/12.jpg",
+        "images/bitter-sugar/13.jpg",
+        "images/bitter-sugar/14.jpg",
+        "images/bitter-sugar/15.jpg",
+        "images/bitter-sugar/16.jpg",
+        "images/bitter-sugar/17.jpg",
+        "images/bitter-sugar/18.jpg",
+        "images/bitter-sugar/19.jpg",
+        "images/bitter-sugar/20.jpg",
+        "images/bitter-sugar/21.jpg",
+        "images/bitter-sugar/22.jpg",
+        "images/bitter-sugar/24.jpg"
+      ]
+    }
+  ]
+}

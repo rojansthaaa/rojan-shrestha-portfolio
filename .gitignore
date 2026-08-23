@@ -1,0 +1,9 @@
+.DS_Store
+node_modules/
+.claude/
+
+# Legacy single-file version, superseded by index.html + content/site.json
+index_1.html
+
+# Raw, full-resolution originals — not needed for the live site
+Works/
