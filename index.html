@@ -223,16 +223,13 @@
   .cat-panel.open { display: block; }
 
   /* ---------- piece detail ---------- */
-  body { transition: background-color 0.08s linear; }
-
   .piece-back {
     display: inline-block;
     margin-bottom: 26px;
     font-size: 1.6rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--piece-fg, var(--muted));
-    transition: color 0.08s linear;
+    color: var(--muted);
   }
   .piece-back:hover { opacity: 0.7; }
 
@@ -331,8 +328,7 @@
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 0.98rem;
     line-height: 1.75;
-    color: var(--piece-fg, var(--muted));
-    transition: color 0.08s linear;
+    color: var(--muted);
   }
 
   .piece-title {
@@ -440,7 +436,6 @@
     });
     if (name !== 'piece') {
       document.body.classList.remove('has-fullscreen-hero');
-      setGradientActive(false);
     }
     const section = sectionMap[name] || 'home';
     const isPiece = name === 'piece';
@@ -493,34 +488,6 @@
     return wrap;
   }
 
-  let gradientActive = false;
-  let gradientRaf = null;
-
-  function updateScrollGradient() {
-    const scrollable = document.body.scrollHeight - window.innerHeight;
-    const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
-    const bg = Math.round(progress * 255);
-    document.body.style.backgroundColor = `rgb(${bg}, ${bg}, ${bg})`;
-    const fg = Math.round(255 - progress * 235);
-    document.documentElement.style.setProperty('--piece-fg', `rgb(${fg}, ${fg}, ${fg})`);
-  }
-
-  function onGradientScroll() {
-    if (gradientRaf) return;
-    gradientRaf = requestAnimationFrame(() => { updateScrollGradient(); gradientRaf = null; });
-  }
-
-  function setGradientActive(active) {
-    if (active === gradientActive) return;
-    gradientActive = active;
-    if (active) {
-      window.addEventListener('scroll', onGradientScroll, { passive: true });
-    } else {
-      window.removeEventListener('scroll', onGradientScroll);
-      document.body.style.backgroundColor = '';
-      document.documentElement.style.removeProperty('--piece-fg');
-    }
-  }
 
   function openPiece(index, setHash = true) {
     const p = pieces[index];
@@ -534,7 +501,6 @@
 
     const isFullscreenHero = !!(p.modelFullscreen && p.model);
     document.body.classList.toggle('has-fullscreen-hero', isFullscreenHero);
-    setGradientActive(isFullscreenHero);
 
     if (isFullscreenHero) {
       hero.appendChild(createModelViewer(p.model, `3D scan for ${p.title}`));
@@ -590,7 +556,6 @@
     title.textContent = p.title;
     if (setHash) location.hash = '#piece/' + index;
     else showView('piece');
-    if (isFullscreenHero) updateScrollGradient();
   }
 
   document.getElementById('pieceBack').addEventListener('click', () => {
