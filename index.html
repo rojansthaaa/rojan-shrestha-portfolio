@@ -438,6 +438,21 @@
     });
   });
 
+  function createModelViewer(src, altText) {
+    const wrap = document.createElement('div');
+    wrap.className = 'piece-model-wrap';
+    const viewer = document.createElement('model-viewer');
+    viewer.setAttribute('src', src);
+    viewer.setAttribute('alt', altText);
+    viewer.setAttribute('camera-controls', '');
+    viewer.setAttribute('shadow-intensity', '0.7');
+    viewer.setAttribute('exposure', '1');
+    viewer.setAttribute('interaction-prompt', 'none');
+    viewer.setAttribute('bounds', 'tight');
+    wrap.appendChild(viewer);
+    return wrap;
+  }
+
   function openPiece(index, setHash = true) {
     const p = pieces[index];
     if (!p) return;
@@ -449,18 +464,7 @@
       frame.classList.add('gallery');
 
       if (p.model) {
-        const wrap = document.createElement('div');
-        wrap.className = 'piece-model-wrap';
-        const viewer = document.createElement('model-viewer');
-        viewer.setAttribute('src', p.model);
-        viewer.setAttribute('alt', `3D scan for ${p.title}`);
-        viewer.setAttribute('camera-controls', '');
-        viewer.setAttribute('shadow-intensity', '0.7');
-        viewer.setAttribute('exposure', '1');
-        viewer.setAttribute('interaction-prompt', 'none');
-        viewer.setAttribute('bounds', 'tight');
-        wrap.appendChild(viewer);
-        frame.appendChild(wrap);
+        frame.appendChild(createModelViewer(p.model, `3D scan for ${p.title}`));
 
         if (p.description) {
           const desc = document.createElement('p');
@@ -490,6 +494,10 @@
           frame.appendChild(img);
         }
       });
+
+      if (p.modelEnd) {
+        frame.appendChild(createModelViewer(p.modelEnd, `3D scan for ${p.title}`));
+      }
     } else {
       frame.classList.remove('gallery');
       const note = document.createElement('span');
