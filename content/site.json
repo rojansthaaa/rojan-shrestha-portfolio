@@ -67,7 +67,8 @@
         "images/if-you-could-do-it-all-again/25.jpg",
         "images/if-you-could-do-it-all-again/26.jpg",
         "images/if-you-could-do-it-all-again/27.jpg"
-      ]
+      ],
+      "model": "models/if-you-could-do-it-all-again.glb"
     },
     {
       "title": "Bitter Sugar",
