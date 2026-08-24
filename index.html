@@ -223,15 +223,48 @@
   .cat-panel.open { display: block; }
 
   /* ---------- piece detail ---------- */
+  body { transition: background-color 0.08s linear; }
+
   .piece-back {
     display: inline-block;
     margin-bottom: 26px;
     font-size: 1.6rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--piece-fg, var(--muted));
+    transition: color 0.08s linear;
   }
-  .piece-back:hover { color: var(--ink); }
+  .piece-back:hover { opacity: 0.7; }
+
+  body.has-fullscreen-hero .piece-back {
+    position: fixed;
+    top: clamp(28px, 5vw, 56px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 60;
+    margin-bottom: 0;
+  }
+
+  .piece-hero { display: none; }
+  .piece-hero.active {
+    display: block;
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    height: 100vh;
+    margin-bottom: 48px;
+  }
+  .piece-hero.active .piece-model-wrap {
+    width: 100%;
+    height: 100%;
+  }
+  .piece-hero.active model-viewer {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    background: transparent;
+    --poster-color: transparent;
+  }
 
   .piece-frame {
     width: 100%;
@@ -298,7 +331,8 @@
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 0.98rem;
     line-height: 1.75;
-    color: var(--muted);
+    color: var(--piece-fg, var(--muted));
+    transition: color 0.08s linear;
   }
 
   .piece-title {
@@ -350,6 +384,7 @@
 
   <section class="view" data-view="piece" id="view-piece">
     <button class="piece-back" id="pieceBack" aria-label="Back to work">&larr;</button>
+    <div class="piece-hero" id="pieceHero"></div>
     <div class="piece-frame" id="pieceFrame"></div>
     <p class="piece-title" id="pieceTitle"></p>
   </section>
@@ -403,6 +438,10 @@
         v.style.animation = '';
       }
     });
+    if (name !== 'piece') {
+      document.body.classList.remove('has-fullscreen-hero');
+      setGradientActive(false);
+    }
     const section = sectionMap[name] || 'home';
     const isPiece = name === 'piece';
     let hasActiveCorner = false;
@@ -454,25 +493,66 @@
     return wrap;
   }
 
+  let gradientActive = false;
+  let gradientRaf = null;
+
+  function updateScrollGradient() {
+    const scrollable = document.body.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+    const bg = Math.round(progress * 255);
+    document.body.style.backgroundColor = `rgb(${bg}, ${bg}, ${bg})`;
+    const fg = Math.round(255 - progress * 235);
+    document.documentElement.style.setProperty('--piece-fg', `rgb(${fg}, ${fg}, ${fg})`);
+  }
+
+  function onGradientScroll() {
+    if (gradientRaf) return;
+    gradientRaf = requestAnimationFrame(() => { updateScrollGradient(); gradientRaf = null; });
+  }
+
+  function setGradientActive(active) {
+    if (active === gradientActive) return;
+    gradientActive = active;
+    if (active) {
+      window.addEventListener('scroll', onGradientScroll, { passive: true });
+    } else {
+      window.removeEventListener('scroll', onGradientScroll);
+      document.body.style.backgroundColor = '';
+      document.documentElement.style.removeProperty('--piece-fg');
+    }
+  }
+
   function openPiece(index, setHash = true) {
     const p = pieces[index];
     if (!p) return;
     const frame = document.getElementById('pieceFrame');
     const title = document.getElementById('pieceTitle');
+    const hero = document.getElementById('pieceHero');
     frame.textContent = '';
+    hero.textContent = '';
+    hero.classList.remove('active');
+
+    const isFullscreenHero = !!(p.modelFullscreen && p.model);
+    document.body.classList.toggle('has-fullscreen-hero', isFullscreenHero);
+    setGradientActive(isFullscreenHero);
+
+    if (isFullscreenHero) {
+      hero.appendChild(createModelViewer(p.model, `3D scan for ${p.title}`));
+      hero.classList.add('active');
+    }
 
     if (Array.isArray(p.images) && p.images.length || p.model) {
       frame.classList.add('gallery');
 
-      if (p.model) {
+      if (p.model && !isFullscreenHero) {
         frame.appendChild(createModelViewer(p.model, `3D scan for ${p.title}`));
+      }
 
-        if (p.description) {
-          const desc = document.createElement('p');
-          desc.className = 'piece-description';
-          desc.textContent = p.description;
-          frame.appendChild(desc);
-        }
+      if (p.model && p.description) {
+        const desc = document.createElement('p');
+        desc.className = 'piece-description';
+        desc.textContent = p.description;
+        frame.appendChild(desc);
       }
 
       (p.images || []).forEach((item, i) => {
@@ -510,6 +590,7 @@
     title.textContent = p.title;
     if (setHash) location.hash = '#piece/' + index;
     else showView('piece');
+    if (isFullscreenHero) updateScrollGradient();
   }
 
   document.getElementById('pieceBack').addEventListener('click', () => {
