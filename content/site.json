@@ -43,8 +43,10 @@
       "images": [
         "images/if-you-could-do-it-all-again/01.jpg",
         "images/if-you-could-do-it-all-again/02.jpg",
-        "images/if-you-could-do-it-all-again/03.jpg",
-        "images/if-you-could-do-it-all-again/04.jpg",
+        [
+          "images/if-you-could-do-it-all-again/03.jpg",
+          "images/if-you-could-do-it-all-again/04.jpg"
+        ],
         "images/if-you-could-do-it-all-again/05.jpg",
         "images/if-you-could-do-it-all-again/07.jpg",
         "images/if-you-could-do-it-all-again/08.jpg",

@@ -269,6 +269,18 @@
     display: block;
   }
 
+  .piece-image-row {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+  .piece-image-row img {
+    width: calc(50% - 6px);
+    height: auto;
+    max-height: 80vh;
+    display: block;
+  }
+
   .piece-model-wrap {
     width: 100%;
   }
@@ -458,12 +470,25 @@
         }
       }
 
-      (p.images || []).forEach((src, i) => {
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = `${p.title} — photograph ${i + 1} of ${p.images.length}`;
-        if (i > 0) img.loading = 'lazy';
-        frame.appendChild(img);
+      (p.images || []).forEach((item, i) => {
+        if (Array.isArray(item)) {
+          const row = document.createElement('div');
+          row.className = 'piece-image-row';
+          item.forEach((src) => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `${p.title} — photograph ${i + 1} of ${p.images.length}`;
+            img.loading = 'lazy';
+            row.appendChild(img);
+          });
+          frame.appendChild(row);
+        } else {
+          const img = document.createElement('img');
+          img.src = item;
+          img.alt = `${p.title} — photograph ${i + 1} of ${p.images.length}`;
+          if (i > 0) img.loading = 'lazy';
+          frame.appendChild(img);
+        }
       });
     } else {
       frame.classList.remove('gallery');
