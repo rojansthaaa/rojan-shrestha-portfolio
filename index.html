@@ -286,6 +286,16 @@
     color: var(--muted);
   }
 
+  .piece-description {
+    max-width: 52ch;
+    margin: 0 auto;
+    text-align: left;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.98rem;
+    line-height: 1.75;
+    color: var(--ink);
+  }
+
   .piece-title {
     margin-top: 20px;
     font-family: Georgia, "Times New Roman", serif;
@@ -450,6 +460,13 @@
         hint.textContent = 'Drag to rotate — scroll to zoom';
         wrap.appendChild(hint);
         frame.appendChild(wrap);
+
+        if (p.description) {
+          const desc = document.createElement('p');
+          desc.className = 'piece-description';
+          desc.textContent = p.description;
+          frame.appendChild(desc);
+        }
       }
 
       (p.images || []).forEach((src, i) => {
