@@ -438,7 +438,7 @@
     });
   });
 
-  function createModelViewer(src, altText) {
+  function createModelViewer(src, altText, cameraOrbit) {
     const wrap = document.createElement('div');
     wrap.className = 'piece-model-wrap';
     const viewer = document.createElement('model-viewer');
@@ -449,6 +449,7 @@
     viewer.setAttribute('exposure', '1');
     viewer.setAttribute('interaction-prompt', 'none');
     viewer.setAttribute('bounds', 'tight');
+    if (cameraOrbit) viewer.setAttribute('camera-orbit', cameraOrbit);
     wrap.appendChild(viewer);
     return wrap;
   }
@@ -496,7 +497,7 @@
       });
 
       if (p.modelEnd) {
-        frame.appendChild(createModelViewer(p.modelEnd, `3D scan for ${p.title}`));
+        frame.appendChild(createModelViewer(p.modelEnd, `3D scan for ${p.title}`, '0deg 90deg 1.8m'));
       }
     } else {
       frame.classList.remove('gallery');
