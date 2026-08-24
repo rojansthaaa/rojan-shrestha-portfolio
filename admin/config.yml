@@ -1,8 +1,11 @@
 local_backend: true
 
 backend:
-  name: git-gateway
+  name: github
+  repo: rojansthaaa/rojan-shrestha-portfolio
   branch: main
+  base_url: https://fantastic-squirrel-79889b.netlify.app
+  auth_endpoint: /.netlify/functions/auth
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
