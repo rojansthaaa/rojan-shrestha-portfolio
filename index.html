@@ -231,37 +231,7 @@
     text-transform: uppercase;
     color: var(--muted);
   }
-  .piece-back:hover { opacity: 0.7; }
-
-  body.has-fullscreen-hero .piece-back {
-    position: fixed;
-    top: clamp(28px, 5vw, 56px);
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 60;
-    margin-bottom: 0;
-  }
-
-  .piece-hero { display: none; }
-  .piece-hero.active {
-    display: block;
-    position: relative;
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    height: 100vh;
-    margin-bottom: 48px;
-  }
-  .piece-hero.active .piece-model-wrap {
-    width: 100%;
-    height: 100%;
-  }
-  .piece-hero.active model-viewer {
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    background: transparent;
-    --poster-color: transparent;
-  }
+  .piece-back:hover { color: var(--ink); }
 
   .piece-frame {
     width: 100%;
@@ -380,7 +350,6 @@
 
   <section class="view" data-view="piece" id="view-piece">
     <button class="piece-back" id="pieceBack" aria-label="Back to work">&larr;</button>
-    <div class="piece-hero" id="pieceHero"></div>
     <div class="piece-frame" id="pieceFrame"></div>
     <p class="piece-title" id="pieceTitle"></p>
   </section>
@@ -434,9 +403,6 @@
         v.style.animation = '';
       }
     });
-    if (name !== 'piece') {
-      document.body.classList.remove('has-fullscreen-hero');
-    }
     const section = sectionMap[name] || 'home';
     const isPiece = name === 'piece';
     let hasActiveCorner = false;
@@ -488,37 +454,25 @@
     return wrap;
   }
 
-
   function openPiece(index, setHash = true) {
     const p = pieces[index];
     if (!p) return;
     const frame = document.getElementById('pieceFrame');
     const title = document.getElementById('pieceTitle');
-    const hero = document.getElementById('pieceHero');
     frame.textContent = '';
-    hero.textContent = '';
-    hero.classList.remove('active');
-
-    const isFullscreenHero = !!(p.modelFullscreen && p.model);
-    document.body.classList.toggle('has-fullscreen-hero', isFullscreenHero);
-
-    if (isFullscreenHero) {
-      hero.appendChild(createModelViewer(p.model, `3D scan for ${p.title}`));
-      hero.classList.add('active');
-    }
 
     if (Array.isArray(p.images) && p.images.length || p.model) {
       frame.classList.add('gallery');
 
-      if (p.model && !isFullscreenHero) {
+      if (p.model) {
         frame.appendChild(createModelViewer(p.model, `3D scan for ${p.title}`));
-      }
 
-      if (p.model && p.description) {
-        const desc = document.createElement('p');
-        desc.className = 'piece-description';
-        desc.textContent = p.description;
-        frame.appendChild(desc);
+        if (p.description) {
+          const desc = document.createElement('p');
+          desc.className = 'piece-description';
+          desc.textContent = p.description;
+          frame.appendChild(desc);
+        }
       }
 
       (p.images || []).forEach((item, i) => {
