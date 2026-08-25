@@ -7,3 +7,9 @@ index_1.html
 
 # Raw, full-resolution originals — not needed for the live site
 Works/
+
+# Local Netlify folder
+.netlify
+
+# Local Wrangler (Cloudflare Pages) cache
+.wrangler/
