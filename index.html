@@ -104,7 +104,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 90px 24px 140px;
+    padding: clamp(50px, 12vw, 90px) 24px clamp(60px, 15vw, 140px);
   }
 
   .view {
@@ -322,6 +322,24 @@
     font-size: 0.86rem;
     color: var(--muted);
     line-height: 2;
+  }
+
+  /* ---------- small screens ---------- */
+  @media (max-width: 600px) {
+    .piece-image-row {
+      flex-direction: column;
+      gap: 28px;
+    }
+    .piece-frame.gallery .piece-image-row img {
+      width: 100%;
+    }
+    .piece-model-wrap model-viewer {
+      height: 52vh;
+      min-height: 280px;
+    }
+    .work-cats {
+      gap: clamp(32px, 16vw, 80px);
+    }
   }
 </style>
 </head>
