@@ -682,7 +682,7 @@
     routeFromPath();
   }
 
-  fetch('content/site.json', { cache: 'no-store' })
+  fetch('/content/site.json', { cache: 'no-store' })
     .then(res => res.json())
     .then(renderSite)
     .catch(err => {
