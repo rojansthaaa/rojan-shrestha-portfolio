@@ -3,7 +3,48 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rojan Shrestha</title>
+<title>Rojan Shrestha | Photographer</title>
+<meta name="description" content="Rojan Shrestha is a photographer based in Kathmandu, Nepal, working across editorial, personal, and commissioned projects, including the series “If you could do it all again” and “Bitter Sugar.”">
+<link rel="canonical" href="https://rojanshrestha.com/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rojan Shrestha">
+<meta property="og:title" content="Rojan Shrestha | Photographer">
+<meta property="og:description" content="Photographer based in Kathmandu, Nepal, working across editorial, personal, and commissioned projects.">
+<meta property="og:url" content="https://rojanshrestha.com/">
+<meta property="og:image" content="https://rojanshrestha.com/images/home/hero.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rojan Shrestha | Photographer">
+<meta name="twitter:description" content="Photographer based in Kathmandu, Nepal, working across editorial, personal, and commissioned projects.">
+<meta name="twitter:image" content="https://rojanshrestha.com/images/home/hero.jpg">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "name": "Rojan Shrestha",
+      "alternateName": "रोजन श्रेष्ठ",
+      "url": "https://rojanshrestha.com/",
+      "image": "https://rojanshrestha.com/images/home/hero.jpg",
+      "jobTitle": "Photographer",
+      "email": "mailto:rajanstha911@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Kathmandu",
+        "addressCountry": "NP"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "name": "Rojan Shrestha",
+      "url": "https://rojanshrestha.com/"
+    }
+  ]
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -535,7 +576,7 @@
   });
 
   function renderSite(data) {
-    document.title = data.artist.name;
+    document.title = `${data.artist.name} | ${data.artist.role}`;
 
     brandLink.textContent = data.artist.nameDevanagari;
 
