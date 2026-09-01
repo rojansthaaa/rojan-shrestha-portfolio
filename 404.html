@@ -112,6 +112,8 @@
     font-size: clamp(1.1rem, 2.4vw, 1.5rem);
     letter-spacing: 0.04em;
     color: var(--muted);
+    background: var(--bg);
+    box-shadow: 0 0 0 8px var(--bg);
     transition: color 0.25s ease, opacity 0.25s ease, visibility 0.25s ease;
   }
   .brand:hover, .brand:focus-visible { color: var(--ink); }
@@ -123,6 +125,8 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink);
+    background: var(--bg);
+    box-shadow: 0 0 0 8px var(--bg);
     transition: opacity 0.25s ease, visibility 0.25s ease, color 0.35s ease 0.15s;
   }
   .corner.corner-hidden, .brand.corner-hidden {
@@ -143,9 +147,11 @@
 
   /* ---------- stage ---------- */
   main#stage {
-    min-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
     display: flex;
     align-items: center;
+    align-items: safe center;
     justify-content: center;
     padding: clamp(50px, 12vw, 90px) 24px clamp(60px, 15vw, 140px);
   }
