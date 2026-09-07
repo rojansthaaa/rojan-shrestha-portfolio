@@ -11,11 +11,12 @@
       "facebook": "https://www.facebook.com/rojansthaaa/",
       "muckrack": "https://muckrack.com/rojansthaaa",
       "behance": "https://www.behance.net/rojansthaaa",
-      "imagepasal": "https://imagepasal.com/photographer/rojan/"
+      "imagepasal": "https://imagepasal.com/photographer/rojan/",
+      "x": "https://x.com/Rojansthaaa"
     }
   },
   "home": {
-    "photo": "/images/home/hero.jpg",
+    "photo": "/images/home/rojan_shrestha.jpg",
     "alt": "Black and white street photograph: a figure silhouetted against bright sun flare near a colonnaded building."
   },
   "about": {

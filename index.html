@@ -64,6 +64,7 @@
     --ic-mr: #a8a8a8;
     --ic-be: #4d4d4d;
     --ic-ip: #7a7a7a;
+    --ic-x: #333333;
   }
 
   * { box-sizing: border-box; }
@@ -251,6 +252,7 @@
   .social-mr { background: var(--ic-mr); }
   .social-be { background: var(--ic-be); }
   .social-ip { background: var(--ic-ip); }
+  .social-x { background: var(--ic-x); }
 
   /* ---------- work index ---------- */
   .work-list {
@@ -480,6 +482,9 @@
       <a class="social-ip" id="socialIp" href="#" target="_blank" rel="noopener noreferrer" aria-label="ImagePasal">
         <span class="mono">IP</span>
       </a>
+      <a class="social-x" id="socialX" href="#" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+        <span class="mono">X</span>
+      </a>
     </div>
   </section>
 
@@ -706,6 +711,7 @@
     document.getElementById('socialMr').href = data.artist.social.muckrack || '#';
     document.getElementById('socialBe').href = data.artist.social.behance || '#';
     document.getElementById('socialIp').href = data.artist.social.imagepasal || '#';
+    document.getElementById('socialX').href = data.artist.social.x || '#';
 
     window.addEventListener('popstate', routeFromPath);
     routeFromPath();
