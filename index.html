@@ -379,28 +379,20 @@
   }
 
   /* ---------- about ---------- */
-  .about-statement {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(1.15rem, 2.4vw, 1.4rem);
-    line-height: 1.6;
-    font-style: italic;
-    color: var(--ink);
-    max-width: 46ch;
-    margin: 0 auto;
-  }
   .about-bio {
-    margin-top: 34px;
+    margin-top: 0;
     max-width: 56ch;
     margin-left: auto;
     margin-right: auto;
     text-align: left;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 1rem;
     line-height: 1.75;
     color: var(--ink);
   }
   .about-facts {
     margin-top: 34px;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 0.86rem;
     color: var(--muted);
     line-height: 2;
@@ -458,7 +450,6 @@
 
   <section class="view" data-view="about" id="view-about">
     <h1 class="sr-only" id="aboutHeading"></h1>
-    <p class="about-statement" id="aboutStatement"></p>
     <p class="about-bio" id="aboutBio"></p>
     <p class="about-facts" id="aboutFacts"></p>
   </section>
@@ -692,7 +683,6 @@
       });
     });
 
-    document.getElementById('aboutStatement').textContent = `"${data.about.statement}"`;
     document.getElementById('aboutBio').textContent = data.about.bio || '';
     const factsEl = document.getElementById('aboutFacts');
     factsEl.innerHTML = '';
