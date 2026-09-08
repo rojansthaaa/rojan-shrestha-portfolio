@@ -3,6 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2BGDVCS7HG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2BGDVCS7HG');
+</script>
+
 <title>Rojan Shrestha | Photographer</title>
 <meta name="description" content="Rojan Shrestha is a photographer based in Kathmandu, Nepal, working across editorial, personal, and commissioned projects, including the series “If you could do it all again” and “Bitter Sugar.”">
 <link rel="canonical" href="https://rojanshrestha.com/" id="canonicalLink">
@@ -498,10 +508,29 @@
   const sectionCorners = document.querySelectorAll('.chrome .corner');
   const brandLink = document.querySelector('.brand');
   const sectionMap = { home: 'home', work: 'work', piece: 'work', about: 'about', contact: 'contact' };
+  let gaInitialLoad = true;
+
+  function trackPageView() {
+    if (gaInitialLoad) {
+      // The base gtag('config', ...) call already sent a pageview for
+      // whatever URL loaded first; only fire our own for navigations
+      // after that, since pushState doesn't trigger gtag's auto-tracking.
+      gaInitialLoad = false;
+      return;
+    }
+    if (typeof gtag === 'function') {
+      gtag('event', 'page_view', {
+        page_path: location.pathname,
+        page_location: location.href,
+        page_title: document.title
+      });
+    }
+  }
 
   function showView(name) {
     const canonical = document.getElementById('canonicalLink');
     if (canonical) canonical.href = 'https://rojanshrestha.com' + location.pathname;
+    trackPageView();
 
     views.forEach(v => {
       const active = v.dataset.view === name;
