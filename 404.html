@@ -312,6 +312,27 @@
   #peek.on { opacity: 1; }
   @media (hover: none) { #peek { display: none; } }
 
+  /* About / Contact hover: a soft preview of the page itself */
+  #hoverPage {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    align-items: safe center;
+    justify-content: center;
+    padding: clamp(50px, 12vw, 90px) 24px clamp(60px, 15vw, 140px);
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+  }
+  #hoverPage.on { opacity: 1; visibility: visible; }
+  #hoverPage .hp { width: 100%; max-width: 640px; text-align: center; }
+  @media (hover: none) { #hoverPage { display: none; } }
+
   /* back arrow for the work sub-pages (same look as the piece back arrow) */
   .subback {
     grid-column: 1;
@@ -646,6 +667,8 @@
 
 </main>
 
+<div id="hoverPage" aria-hidden="true"><div class="hp" id="hoverPageInner"></div></div>
+
 <img id="peek" alt="" aria-hidden="true">
 
 <div id="lb" role="dialog" aria-modal="true" aria-label="Tearsheet">
@@ -705,6 +728,7 @@
     const isPiece = name === 'piece';
     const isSub = name === 'category' || name === 'tearsheet';
     closeLightbox();
+    hideHoverPage();
     let hasActiveCorner = false;
     sectionCorners.forEach(c => {
       const isMatch = c.dataset.view === section;
@@ -887,7 +911,40 @@
     target.addEventListener('mousemove', peekTarget);
     ['mouseleave', 'click'].forEach(ev => target.addEventListener(ev, () => peek.classList.remove('on')));
   }
-  sectionCorners.forEach(c => attachPeek(c, () => navPreviews[c.dataset.view]));
+
+  // About / Contact: fade in a copy of that page while the button is hovered
+  const hoverPage = document.getElementById('hoverPage');
+  const hoverInner = document.getElementById('hoverPageInner');
+  let hoverTimer = 0;
+  function showHoverPage(viewName) {
+    const src = document.getElementById('view-' + viewName);
+    if (!src) return;
+    hoverInner.textContent = '';
+    src.childNodes.forEach(n => {
+      const c = n.cloneNode(true);
+      if (c.nodeType === 1) {
+        c.removeAttribute('id');
+        c.querySelectorAll('[id]').forEach(x => x.removeAttribute('id'));
+        c.querySelectorAll('a').forEach(a => { a.tabIndex = -1; });
+      }
+      hoverInner.appendChild(c);
+    });
+    hoverPage.classList.add('on');
+  }
+  function hideHoverPage() {
+    clearTimeout(hoverTimer);
+    hoverPage.classList.remove('on');
+  }
+  sectionCorners.forEach(c => {
+    const v = c.dataset.view;
+    if (v === 'work') { attachPeek(c, () => navPreviews.work); return; }
+    c.addEventListener('mouseenter', () => {
+      if (c.getAttribute('aria-current') === 'true') return;
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(() => showHoverPage(v), 120);
+    });
+    ['mouseleave', 'click'].forEach(ev => c.addEventListener(ev, hideHoverPage));
+  });
 
   function renderWorkIndex() {
     const list = document.getElementById('workIndex');
