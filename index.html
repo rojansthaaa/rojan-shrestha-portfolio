@@ -467,16 +467,6 @@
   #lb .next { right: clamp(14px, 3vw, 40px); top: 50%; transform: translateY(-50%); }
 
   /* ---------- piece detail ---------- */
-  .piece-back {
-    display: inline-block;
-    margin-bottom: 26px;
-    font-size: 1.6rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .piece-back:hover { color: var(--ink); }
-
   .piece-frame {
     width: 100%;
     max-width: 440px;
@@ -546,9 +536,8 @@
   }
 
   .piece-title {
-    margin: 20px 0 0;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.1rem;
+    margin: 0 0 clamp(30px, 5vw, 48px);
+    font-size: 1.02rem;
     font-weight: 400;
   }
 
@@ -629,9 +618,8 @@
   </section>
 
   <section class="view" data-view="piece" id="view-piece">
-    <button class="piece-back" id="pieceBack" aria-label="Back to work">&larr;</button>
-    <div class="piece-frame" id="pieceFrame"></div>
     <h1 class="piece-title" id="pieceTitle"></h1>
+    <div class="piece-frame" id="pieceFrame"></div>
   </section>
 
   <section class="view" data-view="about" id="view-about">
@@ -732,17 +720,18 @@
     const section = sectionMap[name] || 'home';
     const isPiece = name === 'piece';
     const isSub = name === 'category' || name === 'tearsheet';
+    const hasBack = isSub || isPiece;
     closeLightbox();
     let hasActiveCorner = false;
     sectionCorners.forEach(c => {
       const isMatch = c.dataset.view === section;
       if (isMatch) hasActiveCorner = true;
       c.setAttribute('aria-current', isMatch ? 'true' : 'false');
-      c.classList.toggle('corner-hidden', isPiece || (section !== 'home' && !isMatch));
+      c.classList.toggle('corner-hidden', section !== 'home' && !isMatch);
     });
-    brandLink.classList.toggle('corner-hidden', isPiece || isSub);
-    brandLink.classList.toggle('nav-active', !isPiece && !isSub && hasActiveCorner);
-    subBack.classList.toggle('corner-hidden', !isSub);
+    brandLink.classList.toggle('corner-hidden', hasBack);
+    brandLink.classList.toggle('nav-active', !hasBack && hasActiveCorner);
+    subBack.classList.toggle('corner-hidden', !hasBack);
     window.scrollTo(0, 0);
   }
 
@@ -852,12 +841,17 @@
     else showView('piece');
   }
 
-  document.getElementById('pieceBack').addEventListener('click', () => {
-    const p = pieces[currentPiece];
-    navigate('/work/' + ((p && p.category) || 'projects'));
+  // one back arrow for every Work sub-page: a story goes back to its section,
+  // a section goes back to the Work index
+  subBack.addEventListener('click', () => {
+    const active = document.querySelector('.view.active');
+    if (active && active.dataset.view === 'piece') {
+      const p = pieces[currentPiece];
+      navigate('/work/' + ((p && p.category) || 'projects'));
+    } else {
+      navigate('/work');
+    }
   });
-
-  subBack.addEventListener('click', () => navigate('/work'));
 
   /* ---------- work: index, category, tearsheet ---------- */
   function el(tag, cls, text) {
