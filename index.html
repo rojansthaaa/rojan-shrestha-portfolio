@@ -659,6 +659,7 @@
   let pieces = [];
   let categories = [];
   let tearsheet = [];
+  let navPreviews = {};
   let currentPiece = 0;
 
   const views = document.querySelectorAll('.view');
@@ -855,12 +856,38 @@
 
   const peek = document.getElementById('peek');
   let peekX = 0, peekY = 0, peekCx = 0, peekCy = 0, peekRaf = 0;
+
+  // keep the preview inside the window: flip to the left of the cursor near the right edge
+  function peekTarget(e) {
+    const w = peek.offsetWidth || 260;
+    const h = peek.offsetHeight || Math.round(w * 2 / 3);
+    let x = e.clientX + 28;
+    if (x + w > window.innerWidth - 12) x = e.clientX - 28 - w;
+    peekX = Math.max(12, x);
+    peekY = Math.min(Math.max(12, e.clientY - 80), window.innerHeight - h - 12);
+  }
   function peekLoop() {
     peekCx += (peekX - peekCx) * 0.14;
     peekCy += (peekY - peekCy) * 0.14;
     peek.style.transform = 'translate(' + Math.round(peekCx) + 'px,' + Math.round(peekCy) + 'px)';
     peekRaf = peek.classList.contains('on') ? requestAnimationFrame(peekLoop) : 0;
   }
+  // `source` is a path or a function returning one (resolved at hover time)
+  function attachPeek(target, source) {
+    target.addEventListener('mouseenter', (e) => {
+      const src = typeof source === 'function' ? source() : source;
+      if (!src || target.getAttribute('aria-current') === 'true') return;
+      peek.src = src;
+      peekTarget(e);
+      peekCx = peekX;
+      peekCy = peekY;
+      peek.classList.add('on');
+      if (!peekRaf) peekLoop();
+    });
+    target.addEventListener('mousemove', peekTarget);
+    ['mouseleave', 'click'].forEach(ev => target.addEventListener(ev, () => peek.classList.remove('on')));
+  }
+  sectionCorners.forEach(c => attachPeek(c, () => navPreviews[c.dataset.view]));
 
   function renderWorkIndex() {
     const list = document.getElementById('workIndex');
@@ -878,17 +905,8 @@
       a.href = '/work/' + cat.id;
       a.appendChild(el('span', 'name', cat.label));
       a.appendChild(el('span', 'meta', meta));
-      a.addEventListener('click', (e) => { e.preventDefault(); peek.classList.remove('on'); navigate('/work/' + cat.id); });
-      a.addEventListener('mouseenter', (e) => {
-        if (!img) return;
-        peek.src = img;
-        peekX = peekCx = e.clientX + 28;
-        peekY = peekCy = e.clientY - 80;
-        peek.classList.add('on');
-        if (!peekRaf) peekLoop();
-      });
-      a.addEventListener('mousemove', (e) => { peekX = e.clientX + 28; peekY = e.clientY - 80; });
-      a.addEventListener('mouseleave', () => peek.classList.remove('on'));
+      a.addEventListener('click', (e) => { e.preventDefault(); navigate('/work/' + cat.id); });
+      attachPeek(a, img);
       li.appendChild(a);
       list.appendChild(li);
     });
@@ -1041,6 +1059,7 @@
     pieces = data.pieces || [];
     categories = data.workCategories || [];
     tearsheet = data.tearsheet || [];
+    navPreviews = data.navPreviews || {};
     renderWorkIndex();
 
     document.getElementById('aboutBio').textContent = data.about.bio || '';
