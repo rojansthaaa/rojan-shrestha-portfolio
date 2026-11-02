@@ -312,6 +312,34 @@
   #peek.on { opacity: 1; }
   @media (hover: none) { #peek { display: none; } }
 
+  /* small text card that follows the cursor over About / Contact */
+  #peekCard {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: min(340px, 70vw);
+    padding: 20px 22px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    text-align: center;
+    pointer-events: none;
+    z-index: 40;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    will-change: transform;
+  }
+  #peekCard.on { opacity: 1; }
+  @media (hover: none) { #peekCard { display: none; } }
+  #peekCard .about-bio { max-width: none; margin: 0; font-size: 0.74rem; line-height: 1.7; }
+  #peekCard .sr-only { display: none; }
+  #peekCard .contact-name { font-size: 1.1rem; }
+  #peekCard .contact-role { margin-top: 3px; font-size: 0.78rem; }
+  #peekCard .contact-details { margin-top: 14px; font-size: 0.8rem; line-height: 1.7; }
+  #peekCard .social-row { margin-top: 14px; gap: 7px; }
+  #peekCard .social-row a { width: 24px; height: 24px; }
+  #peekCard .social-row svg { width: 11px; height: 11px; }
+  #peekCard .social-row .mono { font-size: 0.5rem; }
+
   /* back arrow for the work sub-pages (same look as the piece back arrow) */
   .subback {
     grid-column: 1;
@@ -647,6 +675,7 @@
 </main>
 
 <img id="peek" alt="" aria-hidden="true">
+<div id="peekCard" aria-hidden="true"></div>
 
 <div id="lb" role="dialog" aria-modal="true" aria-label="Tearsheet">
   <button class="x" type="button" aria-label="Close">&times;</button>
@@ -855,39 +884,78 @@
   }
 
   const peek = document.getElementById('peek');
+  const peekCard = document.getElementById('peekCard');
+  let peekEl = peek, peekAvoid = null;
   let peekX = 0, peekY = 0, peekCx = 0, peekCy = 0, peekRaf = 0;
 
-  // keep the preview inside the window: flip to the left of the cursor near the right edge
+  // keep the preview inside the window and clear of the hovered corner button:
+  // flip to the left of the cursor near the right edge
   function peekTarget(e) {
-    const w = peek.offsetWidth || 260;
-    const h = peek.offsetHeight || Math.round(w * 2 / 3);
+    const w = peekEl.offsetWidth || 260;
+    const h = peekEl.offsetHeight || Math.round(w * 2 / 3);
     let x = e.clientX + 28;
-    if (x + w > window.innerWidth - 12) x = e.clientX - 28 - w;
+    const flip = x + w > window.innerWidth - 12;
+    if (flip) x = e.clientX - 28 - w;
+    if (peekAvoid) {
+      const r = peekAvoid.getBoundingClientRect();
+      x = flip ? Math.min(x, r.left - 20 - w) : Math.max(x, r.right + 20);
+    }
     peekX = Math.max(12, x);
     peekY = Math.min(Math.max(12, e.clientY - 80), window.innerHeight - h - 12);
   }
   function peekLoop() {
     peekCx += (peekX - peekCx) * 0.14;
     peekCy += (peekY - peekCy) * 0.14;
-    peek.style.transform = 'translate(' + Math.round(peekCx) + 'px,' + Math.round(peekCy) + 'px)';
-    peekRaf = peek.classList.contains('on') ? requestAnimationFrame(peekLoop) : 0;
+    peekEl.style.transform = 'translate(' + Math.round(peekCx) + 'px,' + Math.round(peekCy) + 'px)';
+    peekRaf = peekEl.classList.contains('on') ? requestAnimationFrame(peekLoop) : 0;
   }
-  // `source` is a path or a function returning one (resolved at hover time)
-  function attachPeek(target, source) {
+  // fill the card with a copy of the About bio / the Contact details
+  function fillPeekCard(viewName) {
+    const src = document.getElementById('view-' + viewName);
+    if (!src) return false;
+    peekCard.textContent = '';
+    const parts = viewName === 'about' ? [src.querySelector('.about-bio')] : Array.from(src.children);
+    parts.forEach(n => {
+      if (!n) return;
+      const c = n.cloneNode(true);
+      c.removeAttribute('id');
+      c.querySelectorAll('[id]').forEach(x => x.removeAttribute('id'));
+      c.querySelectorAll('a').forEach(a => { a.tabIndex = -1; });
+      peekCard.appendChild(c);
+    });
+    return peekCard.childNodes.length > 0;
+  }
+  // `source` is an image path, {card: 'about' | 'contact'}, or a function returning either
+  function attachPeek(target, source, avoid) {
     target.addEventListener('mouseenter', (e) => {
       const src = typeof source === 'function' ? source() : source;
       if (!src || target.getAttribute('aria-current') === 'true') return;
-      peek.src = src;
+      peek.classList.remove('on');
+      peekCard.classList.remove('on');
+      if (src.card) {
+        if (!fillPeekCard(src.card)) return;
+        peekEl = peekCard;
+      } else {
+        peek.src = src;
+        peekEl = peek;
+      }
+      peekAvoid = avoid ? target : null;
       peekTarget(e);
       peekCx = peekX;
       peekCy = peekY;
-      peek.classList.add('on');
+      peekEl.classList.add('on');
       if (!peekRaf) peekLoop();
     });
     target.addEventListener('mousemove', peekTarget);
-    ['mouseleave', 'click'].forEach(ev => target.addEventListener(ev, () => peek.classList.remove('on')));
+    ['mouseleave', 'click'].forEach(ev => target.addEventListener(ev, () => {
+      peek.classList.remove('on');
+      peekCard.classList.remove('on');
+    }));
   }
-  sectionCorners.forEach(c => attachPeek(c, () => navPreviews[c.dataset.view]));
+  sectionCorners.forEach(c => attachPeek(c, () => {
+    const v = c.dataset.view;
+    return v === 'work' ? navPreviews.work : { card: v };
+  }, true));
 
   function renderWorkIndex() {
     const list = document.getElementById('workIndex');
