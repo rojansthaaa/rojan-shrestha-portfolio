@@ -374,7 +374,12 @@
     text-align: left;
   }
   .story { display: block; }
-  .story .cover { overflow: hidden; background: var(--paper); aspect-ratio: 3 / 2; }
+  .story .cover {
+    position: relative;
+    overflow: hidden;
+    background: var(--paper);
+    aspect-ratio: 3 / 2;
+  }
   .story .cover img {
     width: 100%;
     height: 100%;
@@ -382,21 +387,24 @@
     display: block;
     transition: transform 1.1s cubic-bezier(0.2, 0.6, 0.2, 1);
   }
-  .story:hover .cover img, .story:focus-visible .cover img { transform: scale(1.025); }
-  .story .t {
-    margin-top: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
+  /* soft dark fade at the bottom so the title reads on any photo */
+  .story .cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.42) 62%, rgba(0, 0, 0, 0.91) 98%);
   }
-  .story .title { font-size: 1.02rem; }
-  .story .n {
-    font-size: 0.62rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    white-space: nowrap;
+  .story:hover .cover img, .story:focus-visible .cover img { transform: scale(1.025); }
+  .story .title {
+    position: absolute;
+    left: clamp(16px, 4.8%, 24px);
+    right: 16px;
+    bottom: clamp(16px, 5%, 24px);
+    z-index: 1;
+    color: #fff;
+    font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+    line-height: 1.2;
   }
   .cat-empty { margin: 0; font-size: 0.86rem; color: var(--muted); }
 
@@ -1012,11 +1020,8 @@
       img.src = coverOf(i);
       img.alt = '';
       cover.appendChild(img);
+      cover.appendChild(el('span', 'title', p.title));
       a.appendChild(cover);
-      const t = el('div', 't');
-      t.appendChild(el('span', 'title', p.title));
-      t.appendChild(el('span', 'n', flatImages(p).length + ' photographs' + (p.model ? ' \u00b7 3D' : '')));
-      a.appendChild(t);
       a.addEventListener('click', (e) => { e.preventDefault(); openPiece(i); });
       wrap.appendChild(a);
     });
