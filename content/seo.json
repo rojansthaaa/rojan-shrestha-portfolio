@@ -1,0 +1,37 @@
+{
+  "/": {
+    "title": "Rojan Shrestha | Photographer and Photojournalist, Kathmandu",
+    "description": "Portfolio of Rojan Shrestha, photographer and photojournalist in Kathmandu, Nepal: projects including “If you could do it all again” and “Bitter Sugar.”",
+    "image": "https://rojanshrestha.com/images/home/rojan_shrestha.jpg"
+  },
+  "/work": {
+    "title": "Work | Rojan Shrestha",
+    "description": "Photographic projects by Rojan Shrestha, photographer and photojournalist based in Kathmandu, Nepal.",
+    "image": "https://rojanshrestha.com/images/home/rojan_shrestha.jpg"
+  },
+  "/work/projects": {
+    "title": "Projects | Rojan Shrestha",
+    "description": "Photographic projects by Rojan Shrestha: “If you could do it all again” and “Bitter Sugar”.",
+    "image": "https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_01.jpg"
+  },
+  "/about": {
+    "title": "About Rojan Shrestha | Photojournalist, Kathmandu",
+    "description": "Rojan Shrestha is a visual artist and photojournalist based in Kathmandu, Nepal, working across editorial, personal, and commissioned projects.",
+    "image": "https://rojanshrestha.com/images/home/rojan_shrestha.jpg"
+  },
+  "/contact": {
+    "title": "Contact | Rojan Shrestha",
+    "description": "Contact Rojan Shrestha, photographer and photojournalist in Kathmandu, Nepal, for assignments and prints.",
+    "image": "https://rojanshrestha.com/images/home/rojan_shrestha.jpg"
+  },
+  "/piece/0": {
+    "title": "If you could do it all again | Rojan Shrestha",
+    "description": "Photographic series by Rojan Shrestha exploring the consequences of our growing dependence on immersive technologies.",
+    "image": "https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_01.jpg"
+  },
+  "/piece/1": {
+    "title": "Bitter Sugar | Rojan Shrestha",
+    "description": "Bitter Sugar, a photographic project by Rojan Shrestha, photographer and photojournalist based in Kathmandu, Nepal.",
+    "image": "https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_01.jpg"
+  }
+}

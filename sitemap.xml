@@ -1,23 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://rojanshrestha.com/</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-11-02</lastmod>
     <priority>1.0</priority>
+    <image:image><image:loc>https://rojanshrestha.com/images/home/rojan_shrestha.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://rojanshrestha.com/work</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-11-02</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://rojanshrestha.com/work/projects</loc>
+    <lastmod>2026-11-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://rojanshrestha.com/about</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-11-02</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://rojanshrestha.com/contact</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-11-02</lastmod>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://rojanshrestha.com/piece/0</loc>
+    <lastmod>2026-11-02</lastmod>
+    <priority>0.7</priority>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_01.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_02.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_03.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_04.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_05.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_07.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_08.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_09.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_10.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_11.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_12.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_13.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_14.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_15.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_16.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_17.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_18.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_19.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_20.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_21.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_22.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_23.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_24.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_25.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_26.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_27.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://rojanshrestha.com/piece/1</loc>
+    <lastmod>2026-11-02</lastmod>
+    <priority>0.7</priority>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_01.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_02.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_03.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_04.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_05.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_06.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_07.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_08.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_09.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_10.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_11.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_12.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_13.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_14.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_15.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_16.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_17.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_18.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_19.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_20.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_21.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_22.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_24.jpg</image:loc></image:image>
   </url>
 </urlset>

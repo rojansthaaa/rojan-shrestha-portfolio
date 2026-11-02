@@ -53,6 +53,22 @@ To add a whole new piece, add an entry to the `pieces` array in
 `content/site.json` with a `title` and an `images` array of paths, and
 put the actual photo files at those paths under `images/`.
 
+## SEO files (run after content changes)
+
+The site is one page that draws itself in the browser, so a script writes a
+real page for each route (`about.html`, `contact.html`, `work.html`,
+`work/projects.html`, `piece/0.html` ...) with its own title, description,
+canonical link, share tags and structured data, plus `content/seo.json` and
+`sitemap.xml` (with every photo listed for Google Images). After editing
+`content/site.json` or `index.html`, run:
+
+```
+python3 tools/build_seo.py
+```
+
+then commit everything it changed. Optional: add a `"metaDescription"` to a
+piece in `content/site.json` to control the text Google shows for it.
+
 ## Local development
 
 ```
