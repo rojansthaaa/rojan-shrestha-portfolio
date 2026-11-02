@@ -13,3 +13,4 @@ Works/
 
 # Local Wrangler (Cloudflare Pages) cache
 .wrangler/
+_design/

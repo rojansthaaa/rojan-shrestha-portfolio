@@ -32,6 +32,23 @@ git commit -m "describe the change"
 git push
 ```
 
+The Work page has three sections, listed in `workCategories`: Personal,
+Editorial and Tearsheet. Each piece has a `"category"` (`"personal"` or
+`"editorial"`) that decides where its cover appears. Editorial and
+Tearsheet show "coming soon" until they have content.
+
+To add a tearsheet, put the screenshot under `images/tearsheet/` and add
+an entry to the `tearsheet` array in `content/site.json`:
+
+```
+{ "publication": "BBC", "date": "March 2026",
+  "image": "/images/tearsheet/rojan_shrestha_bbc_march_2026.jpg",
+  "alt": "describe the page", "url": "https://link-to-the-article" }
+```
+
+`date`, `alt` and `url` are optional. The publication filter appears
+automatically once there are two or more publications.
+
 To add a whole new piece, add an entry to the `pieces` array in
 `content/site.json` with a `title` and an `images` array of paths, and
 put the actual photo files at those paths under `images/`.
