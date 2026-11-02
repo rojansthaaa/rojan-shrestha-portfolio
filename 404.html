@@ -688,7 +688,6 @@
   let pieces = [];
   let categories = [];
   let tearsheet = [];
-  let navPreviews = {};
   let currentPiece = 0;
 
   const views = document.querySelectorAll('.view');
@@ -952,9 +951,30 @@
       peekCard.classList.remove('on');
     }));
   }
+
+  // Work button: a different project photo each hover. Every photo is shown
+  // once (shuffled) before any repeats, and never the same one twice in a row.
+  let workBag = [], lastWorkPhoto = '';
+  function nextWorkPhoto() {
+    if (!workBag.length) {
+      const all = [];
+      pieces.forEach(p => flatImages(p).forEach(src => all.push(src)));
+      for (let i = all.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [all[i], all[j]] = [all[j], all[i]];
+      }
+      if (all.length > 1 && all[all.length - 1] === lastWorkPhoto) all.unshift(all.pop());
+      workBag = all;
+    }
+    lastWorkPhoto = workBag.pop() || '';
+    const upcoming = workBag[workBag.length - 1];
+    if (upcoming) new Image().src = upcoming; // warm the cache for the next hover
+    return lastWorkPhoto;
+  }
+
   sectionCorners.forEach(c => attachPeek(c, () => {
     const v = c.dataset.view;
-    return v === 'work' ? navPreviews.work : { card: v };
+    return v === 'work' ? nextWorkPhoto() : { card: v };
   }, true));
 
   function renderWorkIndex() {
@@ -1127,7 +1147,6 @@
     pieces = data.pieces || [];
     categories = data.workCategories || [];
     tearsheet = data.tearsheet || [];
-    navPreviews = data.navPreviews || {};
     renderWorkIndex();
 
     document.getElementById('aboutBio').textContent = data.about.bio || '';
