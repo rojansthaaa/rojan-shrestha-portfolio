@@ -825,7 +825,7 @@
 
   document.getElementById('pieceBack').addEventListener('click', () => {
     const p = pieces[currentPiece];
-    navigate('/work/' + ((p && p.category) || 'personal'));
+    navigate('/work/' + ((p && p.category) || 'projects'));
   });
 
   subBack.addEventListener('click', () => navigate('/work'));
@@ -844,7 +844,7 @@
 
   function piecesIn(catId) {
     const out = [];
-    pieces.forEach((p, i) => { if ((p.category || 'personal') === catId) out.push(i); });
+    pieces.forEach((p, i) => { if ((p.category || 'projects') === catId) out.push(i); });
     return out;
   }
 

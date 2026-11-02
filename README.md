@@ -32,8 +32,8 @@ git commit -m "describe the change"
 git push
 ```
 
-The Work page has three sections, listed in `workCategories`: Personal,
-Editorial and Tearsheet. Each piece has a `"category"` (`"personal"` or
+The Work page has three sections, listed in `workCategories`: Projects,
+Editorial and Tearsheet. Each piece has a `"category"` (`"projects"` or
 `"editorial"`) that decides where its cover appears. Editorial and
 Tearsheet show "coming soon" until they have content.
 
