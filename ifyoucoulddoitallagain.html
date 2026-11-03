@@ -1003,7 +1003,10 @@
       const isMatch = c.dataset.view === section;
       if (isMatch) hasActiveCorner = true;
       c.setAttribute('aria-current', isMatch ? 'true' : 'false');
-      c.classList.toggle('corner-hidden', section !== 'home' && !isMatch);
+      // every page shows all three corners (the current one is greyed out);
+      // only a project's own page keeps them hidden so the photos stay clean,
+      // apart from the section you are in
+      c.classList.toggle('corner-hidden', isPiece && !isMatch);
     });
     brandLink.classList.toggle('corner-hidden', hasBack);
     brandLink.classList.toggle('nav-active', !hasBack && hasActiveCorner);
