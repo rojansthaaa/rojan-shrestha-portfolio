@@ -2,10 +2,10 @@
 """Generate the SEO files for the portfolio from content/site.json.
 
 The site is a single page (index.html) that renders everything in the
-browser. On its own, that means /about, /work, /piece/0 ... reply with a
+browser. On its own, that means /about, /work, /bittersugar ... reply with a
 404 status and the home page's title, so search engines will not index
 them. This script writes a real page for each route (about.html,
-work.html, piece/0.html ...) with its own title, description, canonical
+work.html, bittersugar.html ...) with its own title, description, canonical
 link, social-share tags and structured data, plus content/seo.json (used
 by the page while you click around) and sitemap.xml.
 
@@ -54,8 +54,15 @@ def first_sentence(text):
     return m.group(1) if m else text.strip()
 
 
+RESERVED = {"work", "about", "contact", "piece", "content", "images", "models", "tools"}
+
+
 def piece_path(i):
-    return f"/piece/{i}"
+    """A project's address is its slug (e.g. /bittersugar)."""
+    slug = pieces[i].get("slug")
+    assert slug and re.fullmatch(r"[a-z0-9-]+", slug) and slug not in RESERVED, \
+        f"piece {i} needs a unique lowercase 'slug' in site.json (got {slug!r})"
+    return "/" + slug
 
 
 def category_pieces(cat_id):
@@ -169,7 +176,7 @@ def ld_for(path, r):
         crumbs = [("Home", SITE + "/")]
         if path.startswith("/work/"):
             crumbs.append(("Work", SITE + "/work"))
-        if path.startswith("/piece/"):
+        if r["view"] == "piece":
             crumbs.append(("Work", SITE + "/work"))
             crumbs.append(("Projects", SITE + "/work/projects"))
         crumbs.append((r["title"].split(" | ")[0], SITE + path))
@@ -285,7 +292,7 @@ def render(path, r):
     if r["view"] == "category":
         links = ""
         for i in category_pieces(r["category"]):
-            links += f'<a class="story" href="/piece/{i}"><span class="title">{esc(pieces[i]["title"])}</span></a>'
+            links += f'<a class="story" href="{piece_path(i)}"><span class="title">{esc(pieces[i]["title"])}</span></a>'
         doc = fill(doc, "catStories", links)
         doc = fill(doc, "catLabel", esc(categories[r["category"]]["label"]))
 
@@ -314,6 +321,22 @@ for path, r in routes.items():
     if path == "/":
         template = f.read_text(encoding="utf-8")  # later pages build on the refreshed home
 
+# old /piece/N addresses: small pages that forward to the project's own address
+for i in range(len(pieces)):
+    new = piece_path(i)
+    stub = ROOT / "piece" / f"{i}.html"
+    stub.parent.mkdir(exist_ok=True)
+    stub.write_text(
+        '<!doctype html>\n<html lang="en"><head><meta charset="utf-8">\n'
+        f'<title>{esc(routes[new]["title"])}</title>\n'
+        f'<link rel="canonical" href="{SITE}{new}">\n'
+        f'<meta http-equiv="refresh" content="0; url={new}">\n'
+        f'<script>location.replace("{new}");</script>\n'
+        '</head><body>\n'
+        f'<p><a href="{new}">{esc(pieces[i]["title"])}</a></p>\n'
+        '</body></html>\n', encoding="utf-8")
+    written.append(str(stub.relative_to(ROOT)))
+
 (ROOT / "404.html").write_text((ROOT / "index.html").read_text(encoding="utf-8"), encoding="utf-8")
 
 # ------------------------------------------------------------------ seo.json
@@ -332,7 +355,7 @@ priority = {"/": "1.0", "/work": "0.9", "/work/projects": "0.8"}
 for path, r in routes.items():
     loc = SITE + ("/" if path == "/" else path)
     lines += ["  <url>", f"    <loc>{loc}</loc>", f"    <lastmod>{today}</lastmod>",
-              f"    <priority>{priority.get(path, '0.7' if path.startswith('/piece') else '0.6')}</priority>"]
+              f"    <priority>{priority.get(path, '0.7' if r["view"] == "piece" else '0.6')}</priority>"]
     if r["view"] == "piece":
         for src in flat(pieces[r["piece"]].get("images", [])):
             lines.append(f"    <image:image><image:loc>{SITE}{esc(src)}</image:loc></image:image>")

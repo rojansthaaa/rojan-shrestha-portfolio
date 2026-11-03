@@ -832,9 +832,16 @@
     const segments = location.pathname.split('/').filter(Boolean);
     const view = (segments[0] || '').replace(/\.html$/, '');
     const arg = segments[1] ? segments[1].replace(/\.html$/, '') : undefined;
+    const slugIndex = pieces.findIndex(p => p.slug && p.slug === view);
+    if (slugIndex >= 0 && arg === undefined) {
+      openPiece(slugIndex, false);
+      return;
+    }
     if (view === 'piece' && arg !== undefined) {
+      // old address (/piece/0): switch to the project's own address
       const index = Number.parseInt(arg, 10);
       if (Number.isInteger(index) && index >= 0 && index < pieces.length) {
+        history.replaceState(null, '', piecePath(index));
         openPiece(index, false);
         return;
       }
@@ -870,6 +877,12 @@
     if (cameraOrbit) viewer.setAttribute('camera-orbit', cameraOrbit);
     wrap.appendChild(viewer);
     return wrap;
+  }
+
+  // a project's address is its slug, e.g. /bittersugar
+  function piecePath(i) {
+    const p = pieces[i];
+    return '/' + (p && p.slug ? p.slug : 'piece/' + i);
   }
 
   function openPiece(index, setHash = true) {
@@ -931,7 +944,7 @@
     }
 
     title.textContent = p.title;
-    if (setHash) navigate('/piece/' + index);
+    if (setHash) navigate(piecePath(index));
     else showView('piece');
   }
 
@@ -1100,7 +1113,7 @@
     ids.forEach(i => {
       const p = pieces[i];
       const a = el('a', 'story');
-      a.href = '/piece/' + i;
+      a.href = piecePath(i);
       const cover = el('div', 'cover');
       const img = el('img');
       img.src = coverOf(i);
