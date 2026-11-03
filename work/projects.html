@@ -169,6 +169,10 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr auto;
     height: 100vh;
+    /* phones: size to the visible area, not the area behind the browser's toolbar,
+       so the bottom corners (Contact, About) stay on screen */
+    height: 100dvh;
+    padding-bottom: calc(clamp(28px, 5vw, 56px) + env(safe-area-inset-bottom, 0px));
   }
 
   .brand {
@@ -217,6 +221,7 @@
   /* ---------- stage ---------- */
   main#stage {
     height: 100vh;
+    height: 100dvh;
     overflow-y: auto;
     display: flex;
     align-items: center;
