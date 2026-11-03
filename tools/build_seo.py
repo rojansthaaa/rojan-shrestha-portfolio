@@ -30,6 +30,7 @@ artist = data["artist"]
 name = artist["name"]
 pieces = data.get("pieces", [])
 tearsheet = data.get("tearsheet", [])
+singles = data.get("singles", [])
 categories = {c["id"]: c for c in data.get("workCategories", [])}
 overrides = data.get("seo", {})  # optional hand-written overrides per route
 
@@ -101,6 +102,12 @@ if tearsheet:
         title=f"Tearsheet | {name}",
         description=f"Photographs by {name} as published in international media.",
         image=tearsheet[0]["image"], view="tearsheet",
+    )
+if singles:
+    routes["/work/singles"] = dict(
+        title=f"Singles | {name}",
+        description=f"Single photographs by {name}, photographer and photojournalist based in Kathmandu, Nepal.",
+        image=singles[0]["image"], view="singles",
     )
 routes["/about"] = dict(
     title=f"About {name} | Photojournalist, Kathmandu",
@@ -179,6 +186,14 @@ def ld_for(path, r):
     if r["view"] == "contact":
         graph.append({"@type": "ContactPage", "url": SITE + path, "name": r["title"],
                       "mainEntity": {"@id": PERSON_ID}})
+    if r["view"] == "singles":
+        graph.append({
+            "@type": "ImageGallery", "name": "Singles", "url": SITE + path,
+            "description": r["description"], "author": {"@id": PERSON_ID},
+            "image": [{"@type": "ImageObject", "contentUrl": SITE + it["image"],
+                       "name": it.get("title") or f"Photograph {n + 1}", "creator": {"@id": PERSON_ID}}
+                      for n, it in enumerate(singles[:20])],
+        })
     if r["view"] == "piece":
         p = pieces[r["piece"]]
         graph.append({
@@ -209,10 +224,16 @@ def set_meta(doc, selector_re, value):
 
 
 def fill(doc, element_id, inner_html):
-    """Put inner_html inside the element with this id (idempotent)."""
-    pat = re.compile(r'(id="' + element_id + r'"[^>]*>)(.*?)(</(?:h1|p|a|ul|div)>)', re.S)
-    assert pat.search(doc), element_id
-    return pat.sub(lambda m: m.group(1) + inner_html + m.group(3), doc, count=1)
+    """Put inner_html inside the element with this id. Finds the element's
+    real closing tag (counting nested tags), so it is safe to run repeatedly."""
+    m = re.search(r'<(\w+)\b[^>]*\bid="' + re.escape(element_id) + r'"[^>]*>', doc)
+    assert m, element_id
+    tag, start, depth = m.group(1), m.end(), 1
+    for t in re.finditer(r"<(/?)" + tag + r"\b[^>]*>", doc[start:]):
+        depth += -1 if t.group(1) else 1
+        if depth == 0:
+            return doc[:start] + inner_html + doc[start + t.start():]
+    raise AssertionError("unclosed element " + element_id)
 
 
 def render(path, r):
@@ -247,9 +268,8 @@ def render(path, r):
     doc = re.sub(r'(<a id="contactPhone" href=")[^"]*(">).*?(</a>)',
                  lambda m: m.group(1) + "tel:" + tel + m.group(2) + esc(artist["phone"]) + m.group(3), doc, count=1, flags=re.S)
     items = []
-    for cid in ("projects", "editorial", "tearsheet"):
-        if cid in categories:
-            items.append(f'<li><a href="/work/{cid}"><span class="name">{esc(categories[cid]["label"])}</span></a></li>')
+    for cid, c in categories.items():
+        items.append(f'<li><a href="/work/{cid}"><span class="name">{esc(c["label"])}</span></a></li>')
     doc = fill(doc, "workIndex", "".join(items))
     if r["view"] == "piece":
         p = pieces[r["piece"]]
@@ -270,6 +290,7 @@ def render(path, r):
         doc = fill(doc, "catLabel", esc(categories[r["category"]]["label"]))
 
     # show the right section straight away (no blank flash while content loads)
+    doc = re.sub(r'(<section class="view) active"', r'\1"', doc)
     if r["view"] in ("home", "work", "about", "contact"):
         doc = re.sub(r'(<section class="view)(" data-view="' + r["view"] + '")',
                      lambda m: m.group(1) + " active" + m.group(2), doc, count=1)
@@ -315,6 +336,9 @@ for path, r in routes.items():
     if r["view"] == "piece":
         for src in flat(pieces[r["piece"]].get("images", [])):
             lines.append(f"    <image:image><image:loc>{SITE}{esc(src)}</image:loc></image:image>")
+    elif r["view"] in ("singles", "tearsheet"):
+        for it in (singles if r["view"] == "singles" else tearsheet):
+            lines.append(f"    <image:image><image:loc>{SITE}{esc(it['image'])}</image:loc></image:image>")
     elif path == "/":
         lines.append(f"    <image:image><image:loc>{SITE}{esc(HOME_IMAGE)}</image:loc></image:image>")
     lines.append("  </url>")

@@ -312,7 +312,7 @@
 
   /* ---------- work index ---------- */
   .view[data-view="category"] { max-width: 920px; }
-  .view[data-view="tearsheet"] { max-width: 1040px; }
+  .view[data-view="tearsheet"], .view[data-view="singles"] { max-width: 1040px; }
 
   .work-index {
     list-style: none;
@@ -479,6 +479,7 @@
     background: var(--paper);
     transition: border-color 0.3s ease, transform 0.5s cubic-bezier(0.2, 0.6, 0.2, 1);
   }
+  .clip.single .shot { border-color: transparent; background: transparent; }
   .clip:hover .shot, .clip:focus-visible .shot { border-color: #cfcfcf; transform: translateY(-3px); }
   .clip img { display: block; width: 100%; height: auto; aspect-ratio: auto 3 / 4; }
   .cap { margin-top: 14px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
@@ -649,7 +650,7 @@
 
 <main id="stage">
 
-  <section class="view active" data-view="home" id="view-home">
+  <section class="view" data-view="home" id="view-home">
     <h1 class="sr-only" id="homeHeading">Rojan Shrestha — Photographer</h1>
     <figure class="home-photo">
       <img id="homePhoto" src="" alt="">
@@ -658,7 +659,7 @@
 
   <section class="view" data-view="work" id="view-work">
     <h1 class="sr-only" id="workHeading">Rojan Shrestha — Work</h1>
-    <ul class="work-index" id="workIndex"><li><a href="/work/projects"><span class="name">Projects</span></a></li><li><a href="/work/editorial"><span class="name">Editorial</span></a></li><li><a href="/work/tearsheet"><span class="name">Tearsheet</span></a></li></a></li><li><a href="/work/editorial"><span class="name">Editorial</span></a></li><li><a href="/work/tearsheet"><span class="name">Tearsheet</span></a></li></a></li><li><a href="/work/editorial"><span class="name">Editorial</span></a></li><li><a href="/work/tearsheet"><span class="name">Tearsheet</span></a></li></a></li><li><a href="/work/editorial"><span class="name">Editorial</span></a></li><li><a href="/work/tearsheet"><span class="name">Tearsheet</span></a></li></a></li><li><a href="/work/editorial"><span class="name">Editorial</span></a></li><li><a href="/work/tearsheet"><span class="name">Tearsheet</span></a></li></a></li><li><a href="/work/editorial"><span class="name">Editorial</span></a></li><li><a href="/work/tearsheet"><span class="name">Tearsheet</span></a></li></ul>
+    <ul class="work-index" id="workIndex"><li><a href="/work/projects"><span class="name">Projects</span></a></li><li><a href="/work/editorial"><span class="name">Editorial</span></a></li><li><a href="/work/singles"><span class="name">Singles</span></a></li><li><a href="/work/tearsheet"><span class="name">Tearsheet</span></a></li></ul>
   </section>
 
   <section class="view" data-view="category" id="view-category">
@@ -672,6 +673,12 @@
     <div class="ts-filters" id="tsFilters" role="group" aria-label="Filter by publication" hidden></div>
     <div class="ts-wall" id="tsWall"></div>
     <p class="cat-empty" id="tsEmpty" hidden></p>
+  </section>
+
+  <section class="view" data-view="singles" id="view-singles">
+    <h1 class="cat-label" id="snLabel"></h1>
+    <div class="ts-wall" id="snWall"></div>
+    <p class="cat-empty" id="snEmpty" hidden></p>
   </section>
 
   <section class="view" data-view="piece" id="view-piece">
@@ -722,7 +729,7 @@
 <img id="peek" alt="" aria-hidden="true">
 <div id="peekCard" aria-hidden="true"></div>
 
-<div id="lb" role="dialog" aria-modal="true" aria-label="Tearsheet">
+<div id="lb" role="dialog" aria-modal="true" aria-label="Photograph">
   <button class="x" type="button" aria-label="Close">&times;</button>
   <button class="prev" type="button" aria-label="Previous">&lsaquo;</button>
   <button class="next" type="button" aria-label="Next">&rsaquo;</button>
@@ -733,13 +740,14 @@
   let pieces = [];
   let categories = [];
   let tearsheet = [];
+  let singles = [];
   let currentPiece = 0;
 
   const views = document.querySelectorAll('.view');
   const corners = document.querySelectorAll('.chrome [data-view]');
   const sectionCorners = document.querySelectorAll('.chrome .corner');
   const brandLink = document.querySelector('.brand');
-  const sectionMap = { home: 'home', work: 'work', category: 'work', tearsheet: 'work', piece: 'work', about: 'about', contact: 'contact' };
+  const sectionMap = { home: 'home', work: 'work', category: 'work', tearsheet: 'work', singles: 'work', piece: 'work', about: 'about', contact: 'contact' };
   const subBack = document.getElementById('subBack');
   let gaInitialLoad = true;
 
@@ -805,7 +813,7 @@
     });
     const section = sectionMap[name] || 'home';
     const isPiece = name === 'piece';
-    const isSub = name === 'category' || name === 'tearsheet';
+    const isSub = name === 'category' || name === 'tearsheet' || name === 'singles';
     const hasBack = isSub || isPiece;
     closeLightbox();
     let hasActiveCorner = false;
@@ -840,6 +848,7 @@
     if (view === 'work' && arg) {
       const cat = categories.find(c => c.id === arg);
       if (cat && cat.id === 'tearsheet') { renderTearsheet(cat); showView('tearsheet'); return; }
+      if (cat && cat.id === 'singles') { renderSingles(cat); showView('singles'); return; }
       if (cat) { renderCategory(cat); showView('category'); return; }
     }
     const known = ['work', 'about', 'contact'];
@@ -1066,12 +1075,13 @@
     const list = document.getElementById('workIndex');
     list.textContent = '';
     categories.forEach(cat => {
-      const isTs = cat.id === 'tearsheet';
-      const ids = isTs ? [] : piecesIn(cat.id);
-      const meta = isTs
-        ? (tearsheet.length ? 'Published work' : 'Coming soon')
-        : (ids.length ? ids.length + (ids.length === 1 ? ' story' : ' stories') : 'Coming soon');
-      const img = isTs ? (tearsheet[0] && tearsheet[0].image) : (ids.length ? coverOf(ids[0]) : '');
+      const gallery = cat.id === 'tearsheet' ? tearsheet : cat.id === 'singles' ? singles : null;
+      const ids = gallery ? [] : piecesIn(cat.id);
+      let meta;
+      if (cat.id === 'tearsheet') meta = gallery.length ? 'Published work' : 'Coming soon';
+      else if (cat.id === 'singles') meta = gallery.length ? gallery.length + (gallery.length === 1 ? ' photograph' : ' photographs') : 'Coming soon';
+      else meta = ids.length ? ids.length + (ids.length === 1 ? ' story' : ' stories') : 'Coming soon';
+      const img = gallery ? (gallery[0] && gallery[0].image) : (ids.length ? coverOf(ids[0]) : '');
 
       const li = document.createElement('li');
       const a = el('a');
@@ -1111,36 +1121,46 @@
 
   const lb = document.getElementById('lb');
   const lbStage = document.getElementById('lbStage');
-  let lbIndex = 0, lbReturnFocus = null;
+  let lbItems = [], lbWall = null, lbIndex = 0, lbReturnFocus = null;
 
+  // caption under a photo: a label on the left (publication or title) and an optional date
   function clipCaption(item) {
+    const label = item.publication || item.title || '';
+    if (!label && !item.date) return null;
     const cap = el('div', 'cap');
-    cap.appendChild(el('span', 'pub', item.publication || ''));
+    cap.appendChild(el('span', 'pub', label));
     if (item.date) cap.appendChild(el('span', 'date', item.date));
     return cap;
   }
+  function itemAlt(item) {
+    return item.alt || item.title || (item.publication ? item.publication + ' tearsheet' : 'Photograph by Rojan Shrestha');
+  }
   function visibleClips() {
-    return Array.from(document.querySelectorAll('#tsWall .clip')).filter(c => !c.hidden).map(c => Number(c.dataset.i));
+    if (!lbWall) return [];
+    return Array.from(lbWall.querySelectorAll('.clip')).filter(c => !c.hidden).map(c => Number(c.dataset.i));
   }
   function showLightbox(i) {
     lbIndex = i;
-    const item = tearsheet[i];
+    const item = lbItems[i];
     lbStage.textContent = '';
     const img = el('img');
     img.src = item.image;
-    img.alt = item.alt || ((item.publication || 'Published') + ' tearsheet');
+    img.alt = itemAlt(item);
     lbStage.appendChild(img);
-    const cap = clipCaption(item);
+    let cap = clipCaption(item);
     if (item.url && /^https?:\/\//.test(item.url)) {
+      cap = cap || el('div', 'cap');
       const link = el('a', null, 'Read article');
       link.href = item.url;
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
       cap.appendChild(link);
     }
-    lbStage.appendChild(cap);
+    if (cap) lbStage.appendChild(cap);
   }
-  function openLightbox(i) {
+  function openLightbox(items, wall, i) {
+    lbItems = items;
+    lbWall = wall;
     lbReturnFocus = document.activeElement;
     showLightbox(i);
     lb.classList.add('on');
@@ -1168,33 +1188,38 @@
     if (e.key === 'ArrowRight') stepLightbox(1);
   });
 
+  // a wall of photos that open large when clicked (tearsheet and singles)
+  function buildWall(items, wall, extraClass) {
+    wall.textContent = '';
+    items.forEach((item, i) => {
+      const b = el('button', 'clip' + (extraClass ? ' ' + extraClass : ''));
+      b.type = 'button';
+      b.dataset.i = String(i);
+      b.dataset.pub = item.publication || '';
+      b.setAttribute('aria-label', 'View ' + itemAlt(item));
+      const shot = el('div', 'shot');
+      const img = el('img');
+      img.src = item.image;
+      img.alt = itemAlt(item);
+      img.loading = 'lazy';
+      shot.appendChild(img);
+      b.appendChild(shot);
+      const cap = clipCaption(item);
+      if (cap) b.appendChild(cap);
+      b.addEventListener('click', () => openLightbox(items, wall, i));
+      wall.appendChild(b);
+    });
+  }
+
   function renderTearsheet(cat) {
     document.getElementById('tsLabel').textContent = cat.label;
     const wall = document.getElementById('tsWall');
     const filters = document.getElementById('tsFilters');
     const empty = document.getElementById('tsEmpty');
-    wall.textContent = '';
     filters.textContent = '';
     empty.hidden = tearsheet.length > 0;
     empty.textContent = 'Tearsheets coming soon.';
-
-    tearsheet.forEach((item, i) => {
-      const b = el('button', 'clip');
-      b.type = 'button';
-      b.dataset.i = String(i);
-      b.dataset.pub = item.publication || '';
-      b.setAttribute('aria-label', 'View ' + (item.publication || 'published') + ' tearsheet');
-      const shot = el('div', 'shot');
-      const img = el('img');
-      img.src = item.image;
-      img.alt = item.alt || ((item.publication || 'Published') + ' tearsheet');
-      img.loading = 'lazy';
-      shot.appendChild(img);
-      b.appendChild(shot);
-      b.appendChild(clipCaption(item));
-      b.addEventListener('click', () => openLightbox(i));
-      wall.appendChild(b);
-    });
+    buildWall(tearsheet, wall);
 
     const pubs = Array.from(new Set(tearsheet.map(t => t.publication).filter(Boolean)));
     filters.hidden = pubs.length < 2;
@@ -1213,6 +1238,14 @@
     }
   }
 
+  function renderSingles(cat) {
+    document.getElementById('snLabel').textContent = cat.label;
+    const empty = document.getElementById('snEmpty');
+    empty.hidden = singles.length > 0;
+    empty.textContent = 'Singles coming soon.';
+    buildWall(singles, document.getElementById('snWall'), 'single');
+  }
+
   function renderSite(data) {
     brandLink.textContent = data.artist.nameDevanagari;
 
@@ -1227,6 +1260,7 @@
     pieces = data.pieces || [];
     categories = data.workCategories || [];
     tearsheet = data.tearsheet || [];
+    singles = data.singles || [];
     renderWorkIndex();
 
     document.getElementById('aboutBio').textContent = data.about.bio || '';

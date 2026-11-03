@@ -37,6 +37,10 @@
       "label": "Editorial"
     },
     {
+      "id": "singles",
+      "label": "Singles"
+    },
+    {
       "id": "tearsheet",
       "label": "Tearsheet"
     }
@@ -114,5 +118,6 @@
       "metaDescription": "The work ‘Bitter Sugar’ unveils the fragile lives of sugarcane farmers in the villages of Sarlahi district in the southern belt of Nepal."
     }
   ],
-  "tearsheet": []
+  "tearsheet": [],
+  "singles": []
 }

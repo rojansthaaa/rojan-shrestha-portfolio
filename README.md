@@ -49,6 +49,18 @@ an entry to the `tearsheet` array in `content/site.json`:
 `date`, `alt` and `url` are optional. The publication filter appears
 automatically once there are two or more publications.
 
+To add single photographs, put the files under `images/singles/` and add
+entries to the `singles` array in `content/site.json`:
+
+```
+{ "image": "/images/singles/rojan_shrestha_single_name.jpg",
+  "title": "optional caption", "alt": "describe the photo" }
+```
+
+Only `image` is required. Photos open large when clicked, and the section
+shows "coming soon" until the array has entries. After adding photos, run
+`python3 tools/build_seo.py` so Google gets the new page and sitemap.
+
 To add a whole new piece, add an entry to the `pieces` array in
 `content/site.json` with a `title` and an `images` array of paths, and
 put the actual photo files at those paths under `images/`.
