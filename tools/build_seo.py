@@ -256,7 +256,8 @@ def render(path, r):
         doc = fill(doc, "pieceTitle", esc(p["title"]))
         body = ""
         if p.get("description"):
-            body += f'<p class="piece-description">{esc(p["description"])}</p>'
+            paras = "".join(f"<p>{esc(t)}</p>" for t in re.split(r"\n\s*\n", p["description"]) if t.strip())
+            body += f'<div class="piece-description">{paras}</div>'
         imgs = flat(p.get("images", []))
         for n, src in enumerate(imgs):
             body += f'<img src="{esc(src)}" alt="{esc(p["title"])} — photograph {n + 1} of {len(imgs)}" loading="lazy">'
