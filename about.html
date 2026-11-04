@@ -748,6 +748,7 @@
   let categories = [];
   let tearsheet = [];
   let singles = [];
+  let legacySlugs = [];
   let currentPiece = 0;
 
   const views = document.querySelectorAll('.view');
@@ -855,8 +856,9 @@
     }
     if (view === 'piece' && arg !== undefined) {
       // old address (/piece/0): switch to the project's own address
-      const index = Number.parseInt(arg, 10);
-      if (Number.isInteger(index) && index >= 0 && index < pieces.length) {
+      const old = Number.parseInt(arg, 10);
+      const index = pieces.findIndex(p => p.slug && p.slug === legacySlugs[old]);
+      if (index >= 0) {
         history.replaceState(null, '', piecePath(index));
         openPiece(index, false);
         return;
@@ -1315,11 +1317,23 @@
     routeFromPath();
   }
 
+  // optional files kept up to date by the upload system (stories/ and singles/ folders)
+  const optionalJson = (url, fallback) =>
+    fetch(url, { cache: 'no-store' }).then(res => (res.ok ? res.json() : fallback)).catch(() => fallback);
+
   Promise.all([
     fetch('/content/site.json', { cache: 'no-store' }).then(res => res.json()),
-    fetch('/content/seo.json', { cache: 'no-store' }).then(res => res.json()).catch(() => ({}))
+    optionalJson('/content/seo.json', {}),
+    optionalJson('/content/stories.json', []),
+    optionalJson('/content/singles.json', [])
   ])
-    .then(([site, seoData]) => { seo = seoData; renderSite(site); })
+    .then(([site, seoData, stories, extraSingles]) => {
+      seo = seoData;
+      legacySlugs = (site.pieces || []).map(p => p.slug);   // for old /piece/N addresses
+      site.pieces = (stories || []).concat(site.pieces || []);   // newest uploads first
+      site.singles = (extraSingles || []).concat(site.singles || []);
+      renderSite(site);
+    })
     .catch(err => {
       document.body.innerHTML = '<p style="padding:40px;font-family:sans-serif;color:#8a8a8a">Could not load site content (content/site.json). ' + err.message + '</p>';
     });

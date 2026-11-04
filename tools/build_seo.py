@@ -20,12 +20,16 @@ import datetime
 import html
 import json
 import re
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import content  # noqa: E402  (merges site.json with the uploaded stories/singles)
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://rojanshrestha.com"
 
-data = json.loads((ROOT / "content/site.json").read_text(encoding="utf-8"))
+data = content.load()
 artist = data["artist"]
 name = artist["name"]
 pieces = data.get("pieces", [])
@@ -55,6 +59,14 @@ def first_sentence(text):
 
 
 RESERVED = {"work", "about", "contact", "piece", "content", "images", "models", "tools"}
+
+
+def snippet(text, limit=155):
+    """First sentence of a description, trimmed to fit a search result."""
+    one = first_sentence(" ".join(text.split()))
+    if len(one) <= limit:
+        return one
+    return one[: limit - 1].rsplit(" ", 1)[0].rstrip(",;:") + "\u2026"
 
 
 def piece_path(i):
@@ -133,7 +145,7 @@ for i, p in enumerate(pieces):
                     "photographer and photojournalist based in Kathmandu, Nepal.")
     routes[piece_path(i)] = dict(
         title=f"{p['title']} | {name}",
-        description=p.get("metaDescription", default_desc),
+        description=p.get("metaDescription") or snippet(p.get("description", "")) or default_desc,
         image=imgs[0] if imgs else HOME_IMAGE,
         view="piece", piece=i,
     )
@@ -313,6 +325,17 @@ def out_file(path):
 # the template is index.html itself, so build the home page last and from a
 # clean copy of its own head/body (render() is idempotent)
 written = []
+# pages written on an earlier run for stories/sections that no longer exist are removed
+manifest_file = ROOT / "content/generated-pages.json"
+previous_pages = set(json.loads(manifest_file.read_text())) if manifest_file.exists() else set()
+current_pages = {str(out_file(p).relative_to(ROOT)) for p in routes if p != "/"}
+for stale in sorted(previous_pages - current_pages):
+    stale_file = ROOT / stale
+    if stale_file.exists():
+        stale_file.unlink()
+        print("removed old page:", stale)
+manifest_file.write_text(json.dumps(sorted(current_pages), indent=2) + "\n", encoding="utf-8")
+
 for path, r in routes.items():
     f = out_file(path)
     f.parent.mkdir(parents=True, exist_ok=True)
@@ -322,8 +345,8 @@ for path, r in routes.items():
         template = f.read_text(encoding="utf-8")  # later pages build on the refreshed home
 
 # old /piece/N addresses: small pages that forward to the project's own address
-for i in range(len(pieces)):
-    new = piece_path(i)
+for i, original in enumerate(data["_site_pieces"]):
+    new = "/" + original["slug"]
     stub = ROOT / "piece" / f"{i}.html"
     stub.parent.mkdir(exist_ok=True)
     stub.write_text(
@@ -333,7 +356,7 @@ for i in range(len(pieces)):
         f'<meta http-equiv="refresh" content="0; url={new}">\n'
         f'<script>location.replace("{new}");</script>\n'
         '</head><body>\n'
-        f'<p><a href="{new}">{esc(pieces[i]["title"])}</a></p>\n'
+        f'<p><a href="{new}">{esc(original["title"])}</a></p>\n'
         '</body></html>\n', encoding="utf-8")
     written.append(str(stub.relative_to(ROOT)))
 

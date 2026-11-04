@@ -19,6 +19,14 @@ host — that one does *not* auto-deploy on push; it's updated manually via
 `npx wrangler pages deploy .` after a change, kept mainly as a fallback
 since Netlify (the original host) hit a free-tier usage cap early on.
 
+## Adding stories and photos (no code)
+
+Drop a folder of photos (plus an optional `story.txt`) into `stories/projects/`
+or `stories/editorial/`, or photos into `singles/`, on GitHub. A GitHub Action
+shrinks the photos, adds them to the site and rebuilds everything. The steps are
+in `stories/README.md` and `singles/README.md`. The scripts behind it are
+`tools/ingest.py` and `tools/build_seo.py`.
+
 ## Editing content
 
 There's no admin panel — edit `content/site.json` directly (artist info,

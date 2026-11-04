@@ -1,0 +1,5 @@
+Title: The name of your story
+Description:
+Write the text about your story here.
+
+A blank line starts a new paragraph.
