@@ -1,0 +1,2 @@
+Title: Pipeline test
+Alt: Plain grey test image used to check the upload system
