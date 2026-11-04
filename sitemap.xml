@@ -17,6 +17,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://rojanshrestha.com/work/singles</loc>
+    <lastmod>2026-11-04</lastmod>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://rojanshrestha.com/images/singles/rojan_shrestha_zz_pipeline_test.jpg</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://rojanshrestha.com/about</loc>
     <lastmod>2026-11-04</lastmod>
     <priority>0.6</priority>
