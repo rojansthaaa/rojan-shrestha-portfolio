@@ -321,6 +321,15 @@
   a { color: inherit; text-decoration: none; }
   button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; padding: 0; }
 
+  /* discourage casual saving of photos: no dragging them out, no long-press
+     "save image" on phones (the right-click menu is blocked in the script) */
+  img, model-viewer, canvas {
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   :focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
 
   .sr-only {
@@ -919,6 +928,15 @@
 </div>
 
 <script>
+  // Discourage casual saving of the photos: no right-click menu and no dragging
+  // on photos or the 3D models. (A screenshot can never be prevented.)
+  const protectedMedia = 'img, model-viewer, canvas';
+  ['contextmenu', 'dragstart'].forEach(type => {
+    document.addEventListener(type, (e) => {
+      if (e.target && e.target.closest && e.target.closest(protectedMedia)) e.preventDefault();
+    });
+  });
+
   let pieces = [];
   let categories = [];
   let tearsheet = [];
