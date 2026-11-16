@@ -1085,25 +1085,30 @@
     }));
   }
 
-  // Work button: a different project photo each hover. Every photo is shown
-  // once (shuffled) before any repeats, and never the same one twice in a row.
-  let workBag = [], lastWorkPhoto = '';
-  function nextWorkPhoto() {
-    if (!workBag.length) {
-      const all = [];
-      pieces.forEach(p => flatImages(p).forEach(src => all.push(src)));
-      for (let i = all.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [all[i], all[j]] = [all[j], all[i]];
+  // A shuffled "bag" of photos: every photo is shown once (random order)
+  // before any repeat, and never the same one twice in a row.
+  function shuffledPicker(getPhotos) {
+    let bag = [], last = '';
+    return () => {
+      if (!bag.length) {
+        const all = getPhotos().filter(Boolean);
+        for (let i = all.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [all[i], all[j]] = [all[j], all[i]];
+        }
+        if (all.length > 1 && all[all.length - 1] === last) all.unshift(all.pop());
+        bag = all;
       }
-      if (all.length > 1 && all[all.length - 1] === lastWorkPhoto) all.unshift(all.pop());
-      workBag = all;
-    }
-    lastWorkPhoto = workBag.pop() || '';
-    const upcoming = workBag[workBag.length - 1];
-    if (upcoming) new Image().src = upcoming; // warm the cache for the next hover
-    return lastWorkPhoto;
+      last = bag.pop() || '';
+      const upcoming = bag[bag.length - 1];
+      if (upcoming) new Image().src = upcoming; // warm the cache for the next hover
+      return last;
+    };
   }
+  // WORK button: photos from Projects, Editorial and Singles (never tearsheets)
+  const workPhotos = () => pieces.reduce((all, p) => all.concat(flatImages(p)), [])
+    .concat(singles.map(item => item.image));
+  const nextWorkPhoto = shuffledPicker(workPhotos);
 
   sectionCorners.forEach(c => attachPeek(c, () => {
     const v = c.dataset.view;
@@ -1120,7 +1125,10 @@
       if (cat.id === 'tearsheet') meta = gallery.length ? 'Published work' : 'Coming soon';
       else if (cat.id === 'singles') meta = gallery.length ? gallery.length + (gallery.length === 1 ? ' photograph' : ' photographs') : 'Coming soon';
       else meta = ids.length ? ids.length + (ids.length === 1 ? ' story' : ' stories') : 'Coming soon';
-      const img = gallery ? (gallery[0] && gallery[0].image) : (ids.length ? coverOf(ids[0]) : '');
+      // hover preview: a different photo from this section every time
+      const nextPhoto = shuffledPicker(() => gallery
+        ? gallery.map(item => item.image)
+        : ids.reduce((all, i) => all.concat(flatImages(pieces[i])), []));
 
       const li = document.createElement('li');
       const a = el('a');
@@ -1128,7 +1136,7 @@
       a.appendChild(el('span', 'name', cat.label));
       a.appendChild(el('span', 'meta', meta));
       a.addEventListener('click', (e) => { e.preventDefault(); navigate('/work/' + cat.id); });
-      attachPeek(a, img);
+      attachPeek(a, nextPhoto);
       li.appendChild(a);
       list.appendChild(li);
     });
