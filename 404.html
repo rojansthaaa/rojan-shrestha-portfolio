@@ -214,7 +214,10 @@
     align-items: safe center;
     justify-content: center;
     padding: clamp(50px, 12vw, 90px) 24px clamp(60px, 15vw, 140px);
+    /* scrolls as normal, but without a visible scrollbar */
+    scrollbar-width: none;
   }
+  main#stage::-webkit-scrollbar { display: none; }
 
   .view {
     display: none;
@@ -816,16 +819,17 @@
     const isPiece = name === 'piece';
     const isSub = name === 'category' || name === 'tearsheet' || name === 'singles';
     const hasBack = isSub || isPiece;
+    const isWall = name === 'tearsheet' || name === 'singles';
     closeLightbox();
     let hasActiveCorner = false;
     sectionCorners.forEach(c => {
       const isMatch = c.dataset.view === section;
       if (isMatch) hasActiveCorner = true;
       c.setAttribute('aria-current', isMatch ? 'true' : 'false');
-      // every page shows all three corners (the current one is greyed out);
-      // only a project's own page keeps them hidden so the photos stay clean,
-      // apart from the section you are in
-      c.classList.toggle('corner-hidden', isPiece && !isMatch);
+      // every page shows all three corners (the current one is greyed out).
+      // A project's own page keeps only its section; the long photo walls
+      // (Tearsheet, Singles) hide all three so nothing sits over the pictures
+      c.classList.toggle('corner-hidden', isWall || (isPiece && !isMatch));
     });
     brandLink.classList.toggle('corner-hidden', hasBack);
     brandLink.classList.toggle('nav-active', !hasBack && hasActiveCorner);
