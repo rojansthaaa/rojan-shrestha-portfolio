@@ -30,6 +30,7 @@ Needs Pillow (pip install pillow). Everything else is the standard library.
 import json
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 from PIL import Image, ImageOps
@@ -110,11 +111,24 @@ def parse_story_txt(path):
 def parse_sidecar(path):
     meta = {}
     for line in read_text(path).split("\n"):
-        m = re.match(r"^\s*(title|alt|publication|date|link|url)\s*:\s*(.*)$", line, re.I)
+        m = re.match(r"^\s*(title|headline|alt|caption|publication|date|link|url)\s*:\s*(.*)$", line, re.I)
         if m and m.group(2).strip():
             key = m.group(1).lower()
-            meta["url" if key == "link" else key] = m.group(2).strip()
+            key = {"link": "url", "caption": "alt", "headline": "title"}.get(key, key)
+            meta[key] = m.group(2).strip()
     return meta
+
+
+def file_slug(text, limit=80):
+    """'Nepal’s early vote count' -> 'nepals_early_vote_count' (ASCII, underscores, <= limit)"""
+    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode().lower()
+    text = text.replace("'", "")
+    out = ""
+    for word in re.sub(r"[^a-z0-9]+", " ", text).split():
+        if len(out) + len(word) + 1 > limit:
+            break
+        out = f"{out}_{word}" if out else word
+    return out
 
 
 def flat(images):
@@ -241,7 +255,11 @@ def run_gallery(inbox, folder, prefix, items, label, quality=QUALITY):
     taken = {Path(it["image"]).name for it in items}
     fresh = []
     for src in sorted((f for f in inbox.iterdir() if is_photo(f)), key=lambda f: natural_key(f.stem)):
-        stem = re.sub(r"[^a-z0-9]+", "_", src.stem.lower()).strip("_") or "photo"
+        side = next((f for f in inbox.iterdir()
+                     if f.is_file() and f.suffix.lower() == ".txt" and f.stem.lower() == src.stem.lower()), None)
+        meta = parse_sidecar(side) if side else {}
+        # name the file after the headline/title when one is given (helps Google)
+        stem = file_slug(meta.get("title") or src.stem) or "photo"
         name, n = f"{prefix}{stem}.jpg", 2
         while name in taken:
             name, n = f"{prefix}{stem}_{n}.jpg", n + 1
@@ -252,10 +270,8 @@ def run_gallery(inbox, folder, prefix, items, label, quality=QUALITY):
             continue
         taken.add(name)
         entry = {"image": f"/images/{folder}/{name}"}
-        side = next((f for f in inbox.iterdir()
-                     if f.is_file() and f.suffix.lower() == ".txt" and f.stem.lower() == src.stem.lower()), None)
+        entry.update(meta)
         if side:
-            entry.update(parse_sidecar(side))
             side.unlink()
         src.unlink()
         fresh.append(entry)
@@ -272,7 +288,7 @@ def main():
 
     stories, ch1 = run_stories(data, stories)
     singles, ch2 = run_gallery(SINGLES_DIR, "singles", "rojan_shrestha_", singles, "single")
-    tearsheet, ch3 = run_gallery(TEARSHEET_DIR, "tearsheet", "rojan_shrestha_tearsheet_", tearsheet,
+    tearsheet, ch3 = run_gallery(TEARSHEET_DIR, "tearsheet", "rojan_shrestha_", tearsheet,
                                  "tearsheet", quality=88)  # screenshots: keep the text crisp
 
     for rel, value, changed in (("content/stories.json", stories, ch1),
