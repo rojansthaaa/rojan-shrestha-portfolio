@@ -512,7 +512,7 @@
     overflow-y: auto;
   }
   #lb.on { display: flex; animation: rise 0.3s ease both; }
-  #lb .stage { width: min(560px, 100%); text-align: center; }
+  #lb .stage { width: min(1100px, 100%); text-align: center; }
   #lb img { display: block; width: 100%; height: auto; max-height: 78vh; object-fit: contain; margin: 0 auto; }
   #lb .cap { justify-content: center; gap: 22px; }
   #lb .cap a { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
@@ -1335,13 +1335,15 @@
     fetch('/content/site.json', { cache: 'no-store' }).then(res => res.json()),
     optionalJson('/content/seo.json', {}),
     optionalJson('/content/stories.json', []),
-    optionalJson('/content/singles.json', [])
+    optionalJson('/content/singles.json', []),
+    optionalJson('/content/tearsheet.json', [])
   ])
-    .then(([site, seoData, stories, extraSingles]) => {
+    .then(([site, seoData, stories, extraSingles, extraTearsheet]) => {
       seo = seoData;
       legacySlugs = (site.pieces || []).map(p => p.slug);   // for old /piece/N addresses
       site.pieces = (stories || []).concat(site.pieces || []);   // newest uploads first
       site.singles = (extraSingles || []).concat(site.singles || []);
+      site.tearsheet = (extraTearsheet || []).concat(site.tearsheet || []);
       renderSite(site);
     })
     .catch(err => {

@@ -5,6 +5,7 @@ projects ...). The upload system keeps two more files up to date by itself:
 
     content/stories.json   stories added through the stories/ folder
     content/singles.json   photos added through the singles/ folder
+    content/tearsheet.json tearsheets added through the tearsheet/ folder
 
 load() merges them into one dictionary, newest uploads first. The website
 (index.html) merges them the same way, so both always agree.
@@ -26,7 +27,9 @@ def load():
     data = read_json("content/site.json", {})
     stories = read_json("content/stories.json", [])
     extra_singles = read_json("content/singles.json", [])
+    extra_tearsheet = read_json("content/tearsheet.json", [])
     data["_site_pieces"] = list(data.get("pieces", []))  # the original, hand-written ones
     data["pieces"] = list(stories) + data["_site_pieces"]
     data["singles"] = list(extra_singles) + list(data.get("singles", []))
+    data["tearsheet"] = list(extra_tearsheet) + list(data.get("tearsheet", []))
     return data

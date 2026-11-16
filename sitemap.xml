@@ -2,33 +2,61 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://rojanshrestha.com/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>1.0</priority>
     <image:image><image:loc>https://rojanshrestha.com/images/home/rojan_shrestha.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://rojanshrestha.com/work</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://rojanshrestha.com/work/projects</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://rojanshrestha.com/work/tearsheet</loc>
+    <lastmod>2026-11-16</lastmod>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_ifex_nepal_journalists_missing_flash_flood.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_the_times_nurse_on_tibet_pilgrimage.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_the_times_faces_of_the_flood.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_the_times_mass_grave_flood_victims.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_cnn_nepal_early_vote_count.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_mezha_balendra_shah_nepal_election.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_agencia_brasil_nepal_prime_minister_resigns.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_south_asian_voices_nepal_royalist_revival.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_ifex_journalists_attacked_pro_monarchy_protest.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_bbc_2022_in_pictures.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_cnn_nepal_new_prime_minister.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_the_i_paper_chhath_festival_nepal.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_courrier_international_kathmandu_dog_hotels.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_interfax_photo_chronicle_may_25.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_cnn_the_week_in_40_photos.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_human_rights_watch_nepal_police_protesters.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_bors_nepal_womens_travel_law.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_amnesty_international_human_rights_act.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_amnesty_international_nepal_protest_sign.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_nbc_news_nepal_election.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_new_lines_magazine_pro_monarchy_demonstration.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_bbc_science_focus_nepal_monsoon_flooding.jpg</image:loc></image:image>
+    <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_tearsheet_the_guardian_weekends_best_photos.jpg</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://rojanshrestha.com/about</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://rojanshrestha.com/contact</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://rojanshrestha.com/ifyoucoulddoitallagain</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.7</priority>
     <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_01.jpg</image:loc></image:image>
     <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_02.jpg</image:loc></image:image>
@@ -59,7 +87,7 @@
   </url>
   <url>
     <loc>https://rojanshrestha.com/bittersugar</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.7</priority>
     <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_01.jpg</image:loc></image:image>
     <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_02.jpg</image:loc></image:image>

@@ -11,6 +11,10 @@ You never edit JSON. You drop things into two places on GitHub:
   singles/
         any photos     optional  <same name>.txt  with "Title:" / "Alt:" lines
 
+  tearsheet/
+        screenshots    optional  <same name>.txt  with "Publication:", "Date:",
+                       "Link:" and "Alt:" lines
+
 This script (run automatically by GitHub, or by hand: python3 tools/ingest.py):
   * shrinks each photo (longest side 1600px, JPEG) and gives it a clear file name,
     e.g. images/bittersugar/rojan_shrestha_bittersugar_07.jpg
@@ -36,6 +40,7 @@ import content  # noqa: E402
 
 STORIES_DIR = ROOT / "stories"
 SINGLES_DIR = ROOT / "singles"
+TEARSHEET_DIR = ROOT / "tearsheet"
 IMAGES_DIR = ROOT / "images"
 IMAGE_EXT = {".jpg", ".jpeg", ".png", ".webp"}
 MAX_SIDE = 1600
@@ -65,12 +70,12 @@ def squash(text):
     return re.sub(r"[^a-z0-9]", "", text.lower())
 
 
-def shrink(src, dst):
+def shrink(src, dst, quality=QUALITY):
     dst.parent.mkdir(parents=True, exist_ok=True)
     with Image.open(src) as im:
         im = ImageOps.exif_transpose(im).convert("RGB")
         im.thumbnail((MAX_SIDE, MAX_SIDE), Image.LANCZOS)  # never enlarges
-        im.save(dst, "JPEG", quality=QUALITY, optimize=True, progressive=True)
+        im.save(dst, "JPEG", quality=quality, optimize=True, progressive=True)
 
 
 def read_text(path):
@@ -105,9 +110,10 @@ def parse_story_txt(path):
 def parse_sidecar(path):
     meta = {}
     for line in read_text(path).split("\n"):
-        m = re.match(r"^\s*(title|alt)\s*:\s*(.*)$", line, re.I)
+        m = re.match(r"^\s*(title|alt|publication|date|link|url)\s*:\s*(.*)$", line, re.I)
         if m and m.group(2).strip():
-            meta[m.group(1).lower()] = m.group(2).strip()
+            key = m.group(1).lower()
+            meta["url" if key == "link" else key] = m.group(2).strip()
     return meta
 
 
@@ -226,25 +232,27 @@ def run_stories(data, stories):
     return merged, changed
 
 
-def run_singles(singles):
+def run_gallery(inbox, folder, prefix, items, label, quality=QUALITY):
+    """Photos dropped in `inbox` (singles/ or tearsheet/): shrink them into
+    images/<folder>/, read an optional same-name .txt, newest first."""
     changed = False
-    if not SINGLES_DIR.exists():
-        return singles, changed
-    taken = {Path(s["image"]).name for s in singles}
+    if not inbox.exists():
+        return items, changed
+    taken = {Path(it["image"]).name for it in items}
     fresh = []
-    for src in sorted((f for f in SINGLES_DIR.iterdir() if is_photo(f)), key=lambda f: natural_key(f.stem)):
+    for src in sorted((f for f in inbox.iterdir() if is_photo(f)), key=lambda f: natural_key(f.stem)):
         stem = re.sub(r"[^a-z0-9]+", "_", src.stem.lower()).strip("_") or "photo"
-        name, n = f"rojan_shrestha_{stem}.jpg", 2
+        name, n = f"{prefix}{stem}.jpg", 2
         while name in taken:
-            name, n = f"rojan_shrestha_{stem}_{n}.jpg", n + 1
+            name, n = f"{prefix}{stem}_{n}.jpg", n + 1
         try:
-            shrink(src, IMAGES_DIR / "singles" / name)
+            shrink(src, IMAGES_DIR / folder / name, quality)
         except Exception as err:
             say(f"  ! could not read {src.name}: {err}")
             continue
         taken.add(name)
-        entry = {"image": f"/images/singles/{name}"}
-        side = next((f for f in SINGLES_DIR.iterdir()
+        entry = {"image": f"/images/{folder}/{name}"}
+        side = next((f for f in inbox.iterdir()
                      if f.is_file() and f.suffix.lower() == ".txt" and f.stem.lower() == src.stem.lower()), None)
         if side:
             entry.update(parse_sidecar(side))
@@ -252,23 +260,28 @@ def run_singles(singles):
         src.unlink()
         fresh.append(entry)
         changed = True
-        say(f"+ new single: {src.name}")
-    return fresh + singles, changed
+        say(f"+ new {label}: {src.name}")
+    return fresh + items, changed
 
 
 def main():
     data = content.load()
     stories = content.read_json("content/stories.json", [])
     singles = content.read_json("content/singles.json", [])
+    tearsheet = content.read_json("content/tearsheet.json", [])
 
     stories, ch1 = run_stories(data, stories)
-    singles, ch2 = run_singles(singles)
+    singles, ch2 = run_gallery(SINGLES_DIR, "singles", "rojan_shrestha_", singles, "single")
+    tearsheet, ch3 = run_gallery(TEARSHEET_DIR, "tearsheet", "rojan_shrestha_tearsheet_", tearsheet,
+                                 "tearsheet", quality=88)  # screenshots: keep the text crisp
 
-    for rel, value, changed in (("content/stories.json", stories, ch1), ("content/singles.json", singles, ch2)):
+    for rel, value, changed in (("content/stories.json", stories, ch1),
+                                ("content/singles.json", singles, ch2),
+                                ("content/tearsheet.json", tearsheet, ch3)):
         path = ROOT / rel
         if changed or not path.exists():
             path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    say("done" if (ch1 or ch2) else "nothing new to publish")
+    say("done" if (ch1 or ch2 or ch3) else "nothing new to publish")
 
 
 if __name__ == "__main__":

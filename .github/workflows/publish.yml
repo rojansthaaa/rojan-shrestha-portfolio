@@ -9,6 +9,7 @@ on:
     paths:
       - "stories/**"
       - "singles/**"
+      - "tearsheet/**"
       - "content/site.json"
   workflow_dispatch:
 

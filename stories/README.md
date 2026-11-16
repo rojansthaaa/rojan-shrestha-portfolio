@@ -52,3 +52,4 @@ with no spaces, e.g. `rojanshrestha.com/kathmandufloods`.
 - GitHub accepts up to 100 files at once, 25 MB each. For bigger stories,
   upload in two batches into the same folder.
 - Single photos that are not part of a story go in the **singles** folder.
+- Screenshots of published work go in the **tearsheet** folder.
