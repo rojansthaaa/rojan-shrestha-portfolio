@@ -60,6 +60,13 @@
     "url": "https://ifex.org/journalists-attacked-during-pro-monarchy-protest-in-kathmandu/"
   },
   {
+    "image": "/images/tearsheet/rojan_shrestha_maoist_leads_nepal_again.jpg",
+    "publication": "taz",
+    "date": "December 2022",
+    "title": "Maoist leads Nepal again",
+    "alt": "Nepal's new Prime Minister Pushpa Kamal Dahal. Photo: Rojan Shrestha/NurPhoto/imago"
+  },
+  {
     "image": "/images/tearsheet/rojan_shrestha_2022_in_pictures_striking_photos_from_around_the_world.jpg",
     "publication": "BBC",
     "date": "December 2022",
@@ -81,6 +88,13 @@
     "title": "Chhath: The ancient Hindu festival that celebrates light, warmth and the defeat of darkness in Nepal"
   },
   {
+    "image": "/images/tearsheet/rojan_shrestha_industrial_agriculture_has_failed.jpg",
+    "publication": "E+Z",
+    "date": "November 2022",
+    "title": "Industrial agriculture has failed",
+    "alt": "A farmer ploughs a flooded field with a pair of oxen. Photo: Rojan Shrestha"
+  },
+  {
     "image": "/images/tearsheet/rojan_shrestha_nepal_dog_hotels_are_multiplying_in_kathmandu.jpg",
     "publication": "Courrier International",
     "date": "November 2022",
@@ -95,6 +109,27 @@
     "title": "Photo chronicle of May 25"
   },
   {
+    "image": "/images/tearsheet/rojan_shrestha_photo_of_the_day_nepalese_dances.jpg",
+    "publication": "Vokrug Sveta",
+    "date": "January 2022",
+    "title": "Photo of the Day: Nepalese Dances",
+    "alt": "Women of the Kirat community in traditional dress dance during the Sakela festival in Nepal. Source: Rojan Shrestha/NurPhoto via Getty Images"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_nepal_newspaper_article_removed_from_the_internet_for_critical_opinion.jpg",
+    "publication": "IFEX",
+    "date": "December 2021",
+    "title": "Nepal: Newspaper article removed from the internet for ‘critical opinion’",
+    "alt": "Nepal's newly elected Prime Minister Sher Bahadur Deuba outside the Federal Parliament after winning a vote of confidence, in Kathmandu, 18 July 2021. Rojan Shrestha/NurPhoto via Getty Images"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_best_photos_of_the_week.jpg",
+    "publication": "Interfax",
+    "date": "October 2021",
+    "title": "Best photos of the week",
+    "alt": "A girl rides on a swing set up as part of the Dashain festival in Sankhu, Nepal. Photo: Rojan Shrestha/NurPhoto via Getty Images"
+  },
+  {
     "image": "/images/tearsheet/rojan_shrestha_nepal_police_allegedly_use_excessive_force_on_protesters_target_activists.jpg",
     "publication": "Human Rights Watch",
     "alt": "The Nepal Police stand guard during a protest in Kathmandu, Nepal on June 30, 2021. ©2021 AP Photo/Rojan Shrestha/NurPhoto",
@@ -103,12 +138,93 @@
     "date": "October 2021"
   },
   {
+    "image": "/images/tearsheet/rojan_shrestha_working_hard_for_the_world_cup_of_the_super_rich.jpg",
+    "publication": "11FREUNDE",
+    "date": "July 2021",
+    "title": "Working hard for the World Cup of the super-rich",
+    "alt": "Migrant workers rest on bunk beds in a crowded dormitory. Photo: Rojan Shrestha"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_how_to_recognize_the_nepalese_middle_class.jpg",
+    "publication": "E+Z",
+    "date": "July 2021",
+    "title": "How to recognize the Nepalese middle class",
+    "alt": "Many middle-class families earn their living with a small shop. © Rojan Shrestha/picture-alliance"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_nepal_must_better_protect_disadvantaged_communities.jpg",
+    "publication": "E+Z",
+    "date": "June 2021",
+    "title": "Nepal must better protect disadvantaged communities",
+    "alt": "Police block a rally of Dalits in Kathmandu during the Corona lockdown in May 2020. © Rojan Shrestha/picture-alliance/NurPhoto"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_nepal_reports_more_than_8_000_covid_19_new_cases_for_10th_straight_day.jpg",
+    "publication": "CNN",
+    "date": "May 2021",
+    "title": "Nepal reports more than 8,000 Covid-19 new cases for 10th straight day",
+    "alt": "A health worker prepares Covid-19 tests in Kathmandu, Nepal on May 5. Rojan Shrestha/NurPhoto/Getty Images"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_nepal_fears_a_repeat_of_indias_situation_with_surging_covid_19_cases.jpg",
+    "publication": "The Standard",
+    "date": "May 2021",
+    "title": "Nepal fears a repeat of India's situation with surging COVID-19 cases",
+    "alt": "Health workers in protective suits carry a body to a funeral pyre. Photograph by Rojan Shrestha"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_nepal_wants_to_ban_international_travel_for_women_under_40.jpg",
+    "publication": "Claudia",
+    "date": "February 2021",
+    "title": "Nepal wants to ban international travel for women under 40",
+    "alt": "Activists protest against proposed law that bans Nepalese women from traveling alone. (Rojan Shrestha / NurPhoto/Getty Images)"
+  },
+  {
     "image": "/images/tearsheet/rojan_shrestha_the_week_in_40_photos.jpg",
     "publication": "CNN",
     "date": "August 2020",
     "alt": "A boy tries to cool off in an algae-ridden pond in Bhaktapur, Nepal, on Tuesday, August 4. Rojan Shrestha/NurPhoto/ZUMA",
     "title": "The week in 40 photos",
     "url": "https://www.cnn.com/2020/08/06/world/gallery/photos-this-week-july-30-august-6/index.html"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_new_world_record_nepalese_sherpa_climbs_mount_everest_26_times.jpg",
+    "publication": "Index",
+    "title": "New world record: Nepalese Sherpa climbs Mount Everest 26 times",
+    "alt": "A Sherpa climber is welcomed with ceremonial scarves at the airport. Photo: Rojan Shrestha"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_covid_19_had_a_much_greater_impact_on_the_labor_market_for_women_than_for_men.jpg",
+    "publication": "Business AM",
+    "title": "Covid-19 had a much greater impact on the labor market for women than for men",
+    "alt": "Female farm workers in rice fields in Nepal. – Rojan Shrestha/Nurphoto/Shutterstock"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_monsoon_brings_nepals_mountain_slopes_crashing_down.jpg",
+    "publication": "Dialogue Earth",
+    "title": "Monsoon brings Nepal’s mountain slopes crashing down",
+    "alt": "Damage caused by flash flooding of the Melamchi river in Sindhupalchok district on 15 June (Image: Rojan Shrestha)",
+    "url": "https://dialogue.earth/en/climate/monsoon-bring-nepals-mountain-slopes-crashing-down/"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_child_dives_into_a_pond_to_escape_the_heat_in_bhaktapur.jpg",
+    "publication": "RTVI",
+    "alt": "A child dives into a pond to escape the heat in Bhaktapur, Nepal. Rojan Shrestha/NurPhoto/Getty Images"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_covid_19_cremations_in_kathmandu.jpg",
+    "publication": "Onet Podróże",
+    "alt": "Health workers in protective suits carry a body past burning funeral pyres. Rojan Shrestha/NurPhoto/Getty Images"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_kid_cools_off_in_an_algae_ridden_pond_in_bhaktapur.jpg",
+    "publication": "Tampa Bay Times",
+    "alt": "A Nepalese Kid tries to cool off in an algae-ridden pond amid rising temperatures in Bhaktapur, Nepal. [Rojan Shrestha | ZUMAPRESS.com]"
+  },
+  {
+    "image": "/images/tearsheet/rojan_shrestha_melamchi_bazar_residents_after_the_flood.jpg",
+    "publication": "Dialogue Earth",
+    "alt": "A week after the flood, residents of Melamchi Bazar remove their belongings from a house that was buried by mud and sand (Image: Rojan Shrestha)"
   },
   {
     "image": "/images/tearsheet/rojan_shrestha_nurse_on_tibet_pilgrimage_among_33_missing_britons.jpg",
