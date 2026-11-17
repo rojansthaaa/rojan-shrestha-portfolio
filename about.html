@@ -664,7 +664,7 @@
 <body>
 
 <nav class="chrome" aria-label="Primary">
-  <a class="brand" id="brandLink" href="/" data-view="home"></a>
+  <a class="brand" id="brandLink" href="/" data-view="home"><span class="brand-name">रोजन श्रेष्ठ</span><span class="sr-only"> Rojan Shrestha</span></a>
   <a class="corner corner-work" data-view="work" href="/work">Work</a>
   <a class="corner corner-contact" data-view="contact" href="/contact">Contact</a>
   <a class="corner corner-about" data-view="about" href="/about">About</a>
@@ -674,14 +674,14 @@
 <main id="stage">
 
   <section class="view" data-view="home" id="view-home">
-    <h1 class="sr-only" id="homeHeading">Rojan Shrestha — Photographer</h1>
+    <h1 class="sr-only" id="homeHeading"></h1>
     <figure class="home-photo">
       <img id="homePhoto" src="" alt="">
     </figure>
   </section>
 
   <section class="view" data-view="work" id="view-work">
-    <h1 class="sr-only" id="workHeading">Rojan Shrestha — Work</h1>
+    <h1 class="sr-only" id="workHeading"></h1>
     <ul class="work-index" id="workIndex"><li><a href="/work/projects"><span class="name">Projects</span></a></li><li><a href="/work/editorial"><span class="name">Editorial</span></a></li><li><a href="/work/singles"><span class="name">Singles</span></a></li><li><a href="/work/tearsheet"><span class="name">Tearsheet</span></a></li></ul>
   </section>
 
@@ -716,11 +716,11 @@
   </section>
 
   <section class="view" data-view="contact" id="view-contact">
-    <h1 class="contact-name" id="contactName">Rojan Shrestha</h1>
-    <p class="contact-role" id="contactRole">Photographer</p>
+    <h1 class="contact-name" id="contactName"></h1>
+    <p class="contact-role" id="contactRole"></p>
     <div class="contact-details">
-      <div><a id="contactEmail" href="mailto:rajanstha911@gmail.com">rajanstha911@gmail.com</a></div>
-      <div><a id="contactPhone" href="tel:+9779849074057">+977 984 907 4057</a></div>
+      <div><a id="contactEmail" href="#"></a></div>
+      <div><a id="contactPhone" href="#"></a></div>
     </div>
     <div class="social-row">
       <a class="social-ig" id="socialIg" href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
@@ -832,6 +832,7 @@
   }
 
   function showView(name) {
+    renderViewText(name);
     applyRouteMeta();
     trackPageView();
 
@@ -1055,6 +1056,7 @@
   }
   // fill the card with a copy of the About bio / the Contact details
   function fillPeekCard(viewName) {
+    renderViewText(viewName);
     const src = document.getElementById('view-' + viewName);
     if (!src) return false;
     peekCard.textContent = '';
@@ -1305,12 +1307,48 @@
     buildWall(singles, document.getElementById('snWall'), 'single');
   }
 
-  function renderSite(data) {
-    brandLink.textContent = data.artist.nameDevanagari;
+  // Text for About and Contact is filled in only when that page is shown (or its
+  // corner is hovered), so search engines see each page with just its own text
+  // and the home page stays the main page about the artist.
+  let siteData = null;
+  const textRendered = {};
+  function renderViewText(name) {
+    if (!siteData || textRendered[name]) return;
+    textRendered[name] = true;
+    const data = siteData;
+    if (name === 'home') {
+      const h = document.getElementById('homeHeading');
+      if (!h.textContent) h.textContent = `${data.artist.name} — Photographer and photojournalist in Kathmandu, Nepal`;
+    }
+    if (name === 'about') {
+      document.getElementById('aboutHeading').textContent = `About ${data.artist.name}`;
+      document.getElementById('aboutBio').textContent = data.about.bio || '';
+      const factsEl = document.getElementById('aboutFacts');
+      factsEl.textContent = '';
+      (data.about.facts || []).forEach((fact, i) => {
+        if (i > 0) factsEl.appendChild(document.createElement('br'));
+        factsEl.appendChild(document.createTextNode(fact));
+      });
+    }
+    if (name === 'contact') {
+      document.getElementById('contactName').textContent = data.artist.name;
+      document.getElementById('contactRole').textContent = data.artist.role;
+      const emailEl = document.getElementById('contactEmail');
+      emailEl.href = 'mailto:' + data.artist.email;
+      emailEl.textContent = data.artist.email;
+      const phoneEl = document.getElementById('contactPhone');
+      phoneEl.href = 'tel:' + data.artist.phone.replace(/[^\d+]/g, '');
+      phoneEl.textContent = data.artist.phone;
+    }
+  }
 
-    document.getElementById('homeHeading').textContent = `${data.artist.name} — ${data.artist.role}`;
+  function renderSite(data) {
+    siteData = data;
+    // the corner link home: Devanagari name shown, English name for search engines
+    const brandName = brandLink.querySelector('.brand-name');
+    (brandName || brandLink).textContent = data.artist.nameDevanagari;
+
     document.getElementById('workHeading').textContent = `${data.artist.name} — Work`;
-    document.getElementById('aboutHeading').textContent = `About ${data.artist.name}`;
 
     const homePhoto = document.getElementById('homePhoto');
     homePhoto.src = data.home.photo;
@@ -1321,23 +1359,6 @@
     tearsheet = data.tearsheet || [];
     singles = data.singles || [];
     renderWorkIndex();
-
-    document.getElementById('aboutBio').textContent = data.about.bio || '';
-    const factsEl = document.getElementById('aboutFacts');
-    factsEl.innerHTML = '';
-    (data.about.facts || []).forEach((fact, i) => {
-      if (i > 0) factsEl.appendChild(document.createElement('br'));
-      factsEl.appendChild(document.createTextNode(fact));
-    });
-
-    document.getElementById('contactName').textContent = data.artist.name;
-    document.getElementById('contactRole').textContent = data.artist.role;
-    const emailEl = document.getElementById('contactEmail');
-    emailEl.href = 'mailto:' + data.artist.email;
-    emailEl.textContent = data.artist.email;
-    const phoneEl = document.getElementById('contactPhone');
-    phoneEl.href = 'tel:' + data.artist.phone.replace(/[^\d+]/g, '');
-    phoneEl.textContent = data.artist.phone;
 
     document.getElementById('socialIg').href = data.artist.social.instagram || '#';
     document.getElementById('socialLi').href = data.artist.social.linkedin || '#';

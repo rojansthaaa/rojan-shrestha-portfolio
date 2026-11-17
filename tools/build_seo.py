@@ -276,18 +276,29 @@ def render(path, r):
                  lambda m: m.group(1) + ld + m.group(2), doc, count=1, flags=re.S)
 
     # readable text in the HTML itself, for crawlers that do not run scripts
-    doc = fill(doc, "homeHeading", esc(f"{name} — {artist.get('role', 'Photographer')}"))
-    doc = fill(doc, "workHeading", esc(f"{name} — Work"))
-    doc = fill(doc, "aboutHeading", esc(f"About {name}"))
-    doc = fill(doc, "aboutBio", esc(data["about"]["bio"]))
-    doc = fill(doc, "aboutFacts", "<br>".join(esc(f) for f in data["about"].get("facts", [])))
-    doc = fill(doc, "contactName", esc(name))
-    doc = fill(doc, "contactRole", esc(artist.get("role", "")))
-    doc = re.sub(r'(<a id="contactEmail" href=")[^"]*(">).*?(</a>)',
-                 lambda m: m.group(1) + "mailto:" + esc(artist["email"]) + m.group(2) + esc(artist["email"]) + m.group(3), doc, count=1, flags=re.S)
+    # The home page is the page about the artist (name, bio, contact); every
+    # other page carries only its own text, so Google ranks the home page for
+    # the name instead of whichever page has the most copies of the bio.
+    view = r["view"]
+    is_home = view == "home"
+    with_bio = is_home or view == "about"
+    with_contact = is_home or view == "contact"
+    doc = fill(doc, "brandLink", f'<span class="brand-name">{esc(artist.get("nameDevanagari", name))}</span>'
+                                 f'<span class="sr-only"> {esc(name)}</span>')
+    doc = fill(doc, "homeHeading", esc(f"{name} \u2014 Photographer and photojournalist in Kathmandu, Nepal") if is_home else "")
+    doc = fill(doc, "workHeading", esc(f"{name} \u2014 Work") if view == "work" else "")
+    doc = fill(doc, "aboutHeading", esc(f"About {name}") if with_bio else "")
+    doc = fill(doc, "aboutBio", esc(data["about"]["bio"]) if with_bio else "")
+    doc = fill(doc, "aboutFacts", "<br>".join(esc(f) for f in data["about"].get("facts", [])) if with_bio else "")
+    doc = fill(doc, "contactName", esc(name) if with_contact else "")
+    doc = fill(doc, "contactRole", esc(artist.get("role", "")) if with_contact else "")
     tel = re.sub(r"[^\d+]", "", artist["phone"])
+    email_href, email_text = ("mailto:" + esc(artist["email"]), esc(artist["email"])) if with_contact else ("#", "")
+    phone_href, phone_text = ("tel:" + tel, esc(artist["phone"])) if with_contact else ("#", "")
+    doc = re.sub(r'(<a id="contactEmail" href=")[^"]*(">).*?(</a>)',
+                 lambda m: m.group(1) + email_href + m.group(2) + email_text + m.group(3), doc, count=1, flags=re.S)
     doc = re.sub(r'(<a id="contactPhone" href=")[^"]*(">).*?(</a>)',
-                 lambda m: m.group(1) + "tel:" + tel + m.group(2) + esc(artist["phone"]) + m.group(3), doc, count=1, flags=re.S)
+                 lambda m: m.group(1) + phone_href + m.group(2) + phone_text + m.group(3), doc, count=1, flags=re.S)
     items = []
     for cid, c in categories.items():
         items.append(f'<li><a href="/work/{cid}"><span class="name">{esc(c["label"])}</span></a></li>')
