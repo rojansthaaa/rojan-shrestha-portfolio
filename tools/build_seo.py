@@ -181,7 +181,9 @@ def person_node():
 def ld_for(path, r):
     graph = [
         person_node(),
-        {"@type": "WebSite", "@id": SITE + "/#website", "name": name, "url": SITE + "/",
+        {"@type": "WebSite", "@id": SITE + "/#website", "name": name,
+         "alternateName": [x for x in (artist.get("nameDevanagari"), "rojanshrestha.com") if x],
+         "url": SITE + "/",
          "publisher": {"@id": PERSON_ID}},
     ]
     if path != "/":

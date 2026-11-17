@@ -2,23 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://rojanshrestha.com/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <priority>1.0</priority>
     <image:image><image:loc>https://rojanshrestha.com/images/home/rojan_shrestha.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://rojanshrestha.com/work</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://rojanshrestha.com/work/projects</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://rojanshrestha.com/work/tearsheet</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_nepal_journalists_and_family_members_go_missing_in_flash_flood.jpg</image:loc></image:image>
     <image:image><image:loc>https://rojanshrestha.com/images/tearsheet/rojan_shrestha_faces_of_the_flood_nepalis_search_photos_of_dead_for_missing_relatives.jpg</image:loc></image:image>
@@ -64,17 +64,17 @@
   </url>
   <url>
     <loc>https://rojanshrestha.com/about</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://rojanshrestha.com/contact</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://rojanshrestha.com/ifyoucoulddoitallagain</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <priority>0.7</priority>
     <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_01.jpg</image:loc></image:image>
     <image:image><image:loc>https://rojanshrestha.com/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_02.jpg</image:loc></image:image>
@@ -105,7 +105,7 @@
   </url>
   <url>
     <loc>https://rojanshrestha.com/bittersugar</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <priority>0.7</priority>
     <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_01.jpg</image:loc></image:image>
     <image:image><image:loc>https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_02.jpg</image:loc></image:image>
