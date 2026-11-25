@@ -851,6 +851,9 @@
     const hasBack = isSub || isPiece;
     const isWall = name === 'tearsheet' || name === 'singles';
     closeLightbox();
+    ambient = name === 'home' || name === 'work';
+    hoverPick = null;
+    hidePeek();
     let hasActiveCorner = false;
     sectionCorners.forEach(c => {
       const isMatch = c.dataset.view === section;
@@ -1071,32 +1074,88 @@
     });
     return peekCard.childNodes.length > 0;
   }
-  // `source` is an image path, {card: 'about' | 'contact'}, or a function returning either
+  // ---------- the photo that follows the pointer ----------
+  // Home and Work pages: a photo follows the pointer all the time and changes
+  // every SWAP_PX of movement; it stays put while the pointer rests.
+  // Hovering a Work line shows that section's photos only (Tearsheet only
+  // there); everywhere else it is Projects, Editorial and Singles.
+  // About / Contact show a small text card instead.
+  const SWAP_PX = 120, SWAP_MS = 90;
+  const fineHover = matchMedia('(hover: hover) and (pointer: fine)');
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  let ambient = false;   // set by showView: true on Home and Work
+  let hoverPick = null;  // the hovered link's photo picker
+  let travel = 0, lastMx = -1, lastMy = -1, lastSwap = 0;
+
+  function hidePeek() {
+    peek.classList.remove('on');
+    peekCard.classList.remove('on');
+  }
+  function activePicker() {
+    return hoverPick || (ambient && !calm.matches ? nextWorkPhoto : null);
+  }
+  function showPhoto(pick, e) {
+    const src = pick();
+    if (!src) { hidePeek(); return; }
+    const wasOn = peekEl === peek && peek.classList.contains('on');
+    peekCard.classList.remove('on');
+    peekEl = peek;
+    peek.src = src;
+    if (e) {
+      peekTarget(e);
+      if (!wasOn) { peekCx = peekX; peekCy = peekY; }
+    }
+    peek.classList.add('on');
+    if (!peekRaf) peekLoop();
+    travel = 0;
+    lastSwap = performance.now();
+  }
+  document.addEventListener('mousemove', (e) => {
+    if (!fineHover.matches) return;
+    const moved = lastMx < 0 ? 0 : Math.hypot(e.clientX - lastMx, e.clientY - lastMy);
+    lastMx = e.clientX;
+    lastMy = e.clientY;
+    if (peekEl === peekCard && peekCard.classList.contains('on')) { peekTarget(e); return; }
+    const pick = activePicker();
+    if (!pick) return;
+    if (!peek.classList.contains('on')) { showPhoto(pick, e); return; }
+    peekTarget(e);
+    travel += moved;
+    if (travel >= SWAP_PX && performance.now() - lastSwap >= SWAP_MS) showPhoto(pick);
+  }, { passive: true });
+  document.documentElement.addEventListener('mouseleave', () => { lastMx = -1; hidePeek(); });
+
+  // `source` is a photo picker (a function returning an image path) or {card: 'about' | 'contact'}
   function attachPeek(target, source, avoid) {
     target.addEventListener('mouseenter', (e) => {
-      const src = typeof source === 'function' ? source() : source;
-      if (!src || target.getAttribute('aria-current') === 'true') return;
-      peek.classList.remove('on');
-      peekCard.classList.remove('on');
-      if (src.card) {
-        if (!fillPeekCard(src.card)) return;
-        peekEl = peekCard;
-      } else {
-        peek.src = src;
-        peekEl = peek;
-      }
+      if (target.getAttribute('aria-current') === 'true') return;
       peekAvoid = avoid ? target : null;
-      peekTarget(e);
-      peekCx = peekX;
-      peekCy = peekY;
-      peekEl.classList.add('on');
-      if (!peekRaf) peekLoop();
+      if (source.card) {
+        hoverPick = null;
+        if (!fillPeekCard(source.card)) return;
+        peek.classList.remove('on');
+        peekEl = peekCard;
+        peekTarget(e);
+        peekCx = peekX;
+        peekCy = peekY;
+        peekCard.classList.add('on');
+        if (!peekRaf) peekLoop();
+      } else {
+        hoverPick = source;
+        showPhoto(source, e);
+      }
     });
-    target.addEventListener('mousemove', peekTarget);
-    ['mouseleave', 'click'].forEach(ev => target.addEventListener(ev, () => {
-      peek.classList.remove('on');
-      peekCard.classList.remove('on');
-    }));
+    target.addEventListener('mouseleave', () => {
+      const leftPhotos = hoverPick === source;
+      hoverPick = null;
+      peekAvoid = null;
+      if (peekEl === peekCard) { peekCard.classList.remove('on'); peekEl = peek; }
+      const pick = activePicker();
+      if (!pick) hidePeek();
+      // swap straight away so a section's photo (e.g. a tearsheet) never lingers outside it
+      else if (leftPhotos && pick !== source && peek.classList.contains('on')) showPhoto(pick);
+    });
+    target.addEventListener('click', () => { hoverPick = null; hidePeek(); });
   }
 
   // A shuffled "bag" of photos: every photo is shown once (random order)
@@ -1114,8 +1173,7 @@
         bag = all;
       }
       last = bag.pop() || '';
-      const upcoming = bag[bag.length - 1];
-      if (upcoming) new Image().src = upcoming; // warm the cache for the next hover
+      bag.slice(-2).forEach(next => { new Image().src = next; }); // warm the cache for the next two
       return last;
     };
   }
@@ -1124,10 +1182,8 @@
     .concat(singles.map(item => item.image));
   const nextWorkPhoto = shuffledPicker(workPhotos);
 
-  sectionCorners.forEach(c => attachPeek(c, () => {
-    const v = c.dataset.view;
-    return v === 'work' ? nextWorkPhoto() : { card: v };
-  }, true));
+  sectionCorners.forEach(c => attachPeek(c,
+    c.dataset.view === 'work' ? nextWorkPhoto : { card: c.dataset.view }, true));
 
   function renderWorkIndex() {
     const list = document.getElementById('workIndex');
