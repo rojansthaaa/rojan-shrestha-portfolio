@@ -1068,11 +1068,12 @@
   }
   // ---------- the photo that follows the pointer ----------
   // Home and Work pages: a photo follows the pointer all the time and changes
-  // every SWAP_PX of movement; it stays put while the pointer rests.
+  // with the slightest movement (every SWAP_PX, at most every SWAP_MS); it
+  // stays put while the pointer rests.
   // Hovering a Work line shows that section's photos only (Tearsheet only
   // there); everywhere else it is Projects, Editorial and Singles.
   // About / Contact show a small text card instead.
-  const SWAP_PX = 120, SWAP_MS = 90;
+  const SWAP_PX = 4, SWAP_MS = 60, WARM_AHEAD = 8;
   const fineHover = matchMedia('(hover: hover) and (pointer: fine)');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
   let ambient = false;   // set by showView: true on Home and Work
@@ -1113,7 +1114,7 @@
     if (!peek.classList.contains('on')) { showPhoto(pick, e); return; }
     peekTarget(e);
     travel += moved;
-    if (travel >= SWAP_PX && performance.now() - lastSwap >= SWAP_MS) showPhoto(pick);
+    if (travel >= SWAP_PX && performance.now() - lastSwap >= SWAP_MS && pick.ready()) showPhoto(pick);
   }, { passive: true });
   document.documentElement.addEventListener('mouseleave', () => { lastMx = -1; hidePeek(); });
 
@@ -1152,22 +1153,41 @@
 
   // A shuffled "bag" of photos: every photo is shown once (random order)
   // before any repeat, and never the same one twice in a row.
+  // The next few photos are loaded in advance; ready() says whether the next
+  // one has arrived, so a fast-moving pointer never flashes a half-loaded photo.
+  const loadedPhotos = new Set(), warmedPhotos = new Set();
+  function warmPhoto(src) {
+    if (!src || warmedPhotos.has(src)) return;
+    warmedPhotos.add(src);
+    const im = new Image();
+    im.onload = () => loadedPhotos.add(src);
+    im.onerror = () => warmedPhotos.delete(src);
+    im.src = src;
+  }
   function shuffledPicker(getPhotos) {
     let bag = [], last = '';
-    return () => {
-      if (!bag.length) {
-        const all = getPhotos().filter(Boolean);
-        for (let i = all.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [all[i], all[j]] = [all[j], all[i]];
-        }
-        if (all.length > 1 && all[all.length - 1] === last) all.unshift(all.pop());
-        bag = all;
+    function refill() {
+      const all = getPhotos().filter(Boolean);
+      for (let i = all.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [all[i], all[j]] = [all[j], all[i]];
       }
+      if (all.length > 1 && all[all.length - 1] === last) all.unshift(all.pop());
+      bag = all;
+    }
+    const pick = () => {
+      if (!bag.length) refill();
       last = bag.pop() || '';
-      bag.slice(-2).forEach(next => { new Image().src = next; }); // warm the cache for the next two
+      bag.slice(-WARM_AHEAD).forEach(warmPhoto);
       return last;
     };
+    pick.ready = () => {
+      if (!bag.length) refill();
+      const next = bag[bag.length - 1];
+      warmPhoto(next);
+      return !next || loadedPhotos.has(next);
+    };
+    return pick;
   }
   // WORK button: photos from Projects, Editorial and Singles (never tearsheets)
   const workPhotos = () => pieces.reduce((all, p) => all.concat(flatImages(p)), [])
