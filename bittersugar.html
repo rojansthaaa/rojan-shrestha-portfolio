@@ -543,7 +543,7 @@
     position: fixed;
     left: 0;
     top: 0;
-    width: min(26vw, 300px);
+    width: min(20vw, 240px);
     aspect-ratio: 3 / 2;
     object-fit: cover;
     pointer-events: none;
@@ -1216,15 +1216,16 @@
   function peekTarget(e) {
     const w = peekEl.offsetWidth || 260;
     const h = peekEl.offsetHeight || Math.round(w * 2 / 3);
-    let x = e.clientX + 28;
+    let x = e.clientX + 18;
     const flip = x + w > window.innerWidth - 12;
-    if (flip) x = e.clientX - 28 - w;
+    if (flip) x = e.clientX - 18 - w;
     if (peekAvoid) {
       const r = peekAvoid.getBoundingClientRect();
       x = flip ? Math.min(x, r.left - 20 - w) : Math.max(x, r.right + 20);
     }
     peekX = Math.max(12, x);
-    peekY = Math.min(Math.max(12, e.clientY - 80), window.innerHeight - h - 12);
+    // top edge level with the pointer (lifted only near the bottom of the window)
+    peekY = Math.min(Math.max(12, e.clientY), window.innerHeight - h - 12);
   }
   function peekLoop() {
     peekCx += (peekX - peekCx) * 0.14;
