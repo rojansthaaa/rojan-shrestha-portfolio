@@ -849,7 +849,7 @@
     const hasBack = isSub || isPiece;
     const isWall = name === 'tearsheet' || name === 'singles';
     closeLightbox();
-    ambient = name === 'home' || name === 'work';
+    ambient = name === 'home' || name === 'work' || name === 'about' || name === 'contact';
     hoverPick = null;
     hidePeek();
     let hasActiveCorner = false;
@@ -1051,8 +1051,8 @@
     peekY = Math.min(Math.max(12, e.clientY), window.innerHeight - h - 12);
   }
   function peekLoop() {
-    peekCx += (peekX - peekCx) * 0.14;
-    peekCy += (peekY - peekCy) * 0.14;
+    peekCx += (peekX - peekCx) * 0.4;
+    peekCy += (peekY - peekCy) * 0.4;
     peekEl.style.transform = 'translate(' + Math.round(peekCx) + 'px,' + Math.round(peekCy) + 'px)';
     peekRaf = peekEl.classList.contains('on') ? requestAnimationFrame(peekLoop) : 0;
   }
@@ -1074,7 +1074,7 @@
     return peekCard.childNodes.length > 0;
   }
   // ---------- the photo that follows the pointer ----------
-  // Home and Work pages: a photo follows the pointer all the time and changes
+  // Home, Work, About and Contact: a photo follows the pointer all the time and changes
   // with the slightest movement (every SWAP_PX, at most every SWAP_MS); it
   // stays put while the pointer rests.
   // Hovering a Work line shows that section's photos only (Tearsheet only
@@ -1083,7 +1083,7 @@
   const SWAP_PX = 4, SWAP_MS = 60, WARM_AHEAD = 8;
   const fineHover = matchMedia('(hover: hover) and (pointer: fine)');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
-  let ambient = false;   // set by showView: true on Home and Work
+  let ambient = false;   // set by showView: true on Home, Work, About and Contact
   let hoverPick = null;  // the hovered link's photo picker
   let travel = 0, lastMx = -1, lastMy = -1, lastSwap = 0;
 
