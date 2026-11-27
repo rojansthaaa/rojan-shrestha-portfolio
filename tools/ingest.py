@@ -7,6 +7,8 @@ You never edit JSON. You drop things into two places on GitHub:
         story.txt      title + text (optional; the folder name is the title otherwise)
         01.jpg 02.jpg  your photos, shown in file-name order
                        name two photos 03a.jpg and 03b.jpg to show them side by side
+        captions.txt   optional: one line per photo, e.g.  03: Sarlahi, 2023. A farmer ...
+                       (shown under the photo and used as its description for Google)
 
   singles/
         any photos     optional  <same name>.txt  with "Title:" / "Alt:" lines
@@ -20,6 +22,8 @@ This script (run automatically by GitHub, or by hand: python3 tools/ingest.py):
     e.g. images/bittersugar/rojan_shrestha_bittersugar_07.jpg
   * removes the big original from the repo so it does not fill up
   * records the story / single in content/stories.json or content/singles.json
+  * writes the photographer's name, credit and copyright into every photo
+    (tools/photo_rights.py), so Google Images can show them
 
 Uploading more photos into an existing story folder adds them to that story.
 Editing story.txt updates the story's title and text. Deleting a story folder
@@ -106,6 +110,16 @@ def parse_story_txt(path):
             desc.append(line.rstrip())
     text = re.sub(r"\n{3,}", "\n\n", "\n".join(desc)).strip()
     return meta, text
+
+
+def parse_captions(path):
+    """captions.txt: one line per photo, '03: caption' (or '03a', '03.jpg')."""
+    caps = {}
+    for line in read_text(path).split("\n"):
+        m = re.match(r"^\s*([0-9]+[ab]?)(?:\.[a-z]+)?\s*[:\-–—]\s*(.+?)\s*$", line, re.I)
+        if m:
+            caps[m.group(1).lower()] = m.group(2)
+    return caps
 
 
 def parse_sidecar(path):
@@ -226,9 +240,19 @@ def run_stories(data, stories):
                             continue
                         src.unlink()
                         placed.append(f"/images/{rec['slug']}/{name}")
+                        rec.setdefault("stems", {})[placed[-1]] = src.stem.lower()
                     if placed:
                         rec["images"].append(placed[0] if len(placed) == 1 else placed)
                         changed = True
+                # captions.txt: shown under the photos and used as their descriptions
+                cap_file = folder / "captions.txt"
+                caps = parse_captions(cap_file) if cap_file.exists() else {}
+                captions = {path: caps[stem] for path, stem in rec.get("stems", {}).items() if stem in caps}
+                if captions != rec.get("captions", {}):
+                    rec["captions"] = captions
+                    rec["alt"] = dict(captions)
+                    changed = True
+                    say(f"  {rec['title']}: {len(captions)} caption(s)")
                 if units:
                     say(f"  {rec['title']}: {len(flat(rec['images']))} photographs in total")
                 if rec["images"]:
@@ -297,6 +321,8 @@ def main():
         path = ROOT / rel
         if changed or not path.exists():
             path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    import photo_rights  # noqa: E402
+    photo_rights.apply_all()
     say("done" if (ch1 or ch2 or ch3) else "nothing new to publish")
 
 

@@ -1,0 +1,38 @@
+{
+  "/": {
+    "date": "2026-11-27",
+    "hash": "cfd238fea628798babc9c81fbbcd462c230666ea"
+  },
+  "/about": {
+    "date": "2026-11-27",
+    "hash": "e7bc5ed7bade1c296d5f8b65bae55dd67c292a7b"
+  },
+  "/bittersugar": {
+    "date": "2026-11-27",
+    "hash": "732cd8101b39640b7a47b5a9abf217b1066b3ac3"
+  },
+  "/contact": {
+    "date": "2026-11-27",
+    "hash": "e63d9694be17fff2ed1175a69d91693e8da2c7b7"
+  },
+  "/ifyoucoulddoitallagain": {
+    "date": "2026-11-27",
+    "hash": "4485c4b391486d7ba086cf33e8ba649a4200c024"
+  },
+  "/work": {
+    "date": "2026-11-27",
+    "hash": "db31a25a9358a907ee0b1f9cf0374285b27f17ae"
+  },
+  "/work/projects": {
+    "date": "2026-11-27",
+    "hash": "6214121beac1319fe84a7a80b3e44cf5ccce04c1"
+  },
+  "/work/singles": {
+    "date": "2026-11-27",
+    "hash": "24d9d0f71eb4314d043d1f27642fe49ae30d45af"
+  },
+  "/work/tearsheet": {
+    "date": "2026-11-27",
+    "hash": "2713cd0ec440553075719b8bf54a7db6df969e10"
+  }
+}

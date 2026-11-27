@@ -53,6 +53,25 @@ def flat(images):
     return out
 
 
+def jpeg_size(path):
+    """(width, height) of a JPEG, read from its header (no image library needed)."""
+    import struct
+    with open(path, "rb") as f:
+        data = f.read()
+    i = 2
+    while i < len(data) - 9:
+        if data[i] != 0xFF:
+            i += 1
+            continue
+        marker = data[i + 1]
+        if marker in (0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF):
+            h, w = struct.unpack(">HH", data[i + 5:i + 9])
+            return w, h
+        length = struct.unpack(">H", data[i + 2:i + 4])[0]
+        i += 2 + length
+    return None
+
+
 def first_sentence(text):
     m = re.match(r"(.+?[.!?])(\s|$)", text.strip())
     return m.group(1) if m else text.strip()
@@ -122,12 +141,14 @@ if tearsheet:
         description=f"Photographs by {name} as published in international media.",
         image=tearsheet[0]["image"], view="tearsheet",
     )
-if singles:
-    routes["/work/singles"] = dict(
-        title=f"Singles | {name}",
-        description=f"Single photographs by {name}, photographer and photojournalist based in Kathmandu, Nepal.",
-        image=singles[0]["image"], view="singles",
-    )
+# the Singles page always exists (the Work page links to it); while it has no
+# photos it asks search engines not to list it and stays out of the sitemap
+routes["/work/singles"] = dict(
+    title=f"Singles | {name}",
+    description=f"Single photographs by {name}, photographer and photojournalist based in Kathmandu, Nepal.",
+    image=singles[0]["image"] if singles else HOME_IMAGE, view="singles",
+    noindex=not singles,
+)
 routes["/about"] = dict(
     title=f"About {name} | Photojournalist, Kathmandu",
     description=first_sentence(data["about"]["bio"]),
@@ -178,6 +199,26 @@ def person_node():
     }
 
 
+RIGHTS = artist.get("rights", {})
+LICENSE_URL = SITE + RIGHTS.get("licensePage", "/contact")
+
+
+def photo_node(src, description, title=""):
+    """A photo with its creator, credit, copyright and licence page, so
+    Google Images can show the photographer and a Licensable badge."""
+    node = {"@type": "ImageObject", "contentUrl": SITE + src,
+            "creator": {"@id": PERSON_ID},
+            "creditText": RIGHTS.get("credit", name),
+            "copyrightNotice": RIGHTS.get("copyright", f"© {name}"),
+            "license": LICENSE_URL,
+            "acquireLicensePage": LICENSE_URL}
+    if title:
+        node["name"] = title
+    if description:
+        node["description"] = description
+    return node
+
+
 def ld_for(path, r):
     graph = [
         person_node(),
@@ -201,6 +242,8 @@ def ld_for(path, r):
                 for n, (t, u) in enumerate(crumbs)
             ],
         })
+    if path == "/":
+        graph.append(photo_node(HOME_IMAGE, HOME_ALT))
     if r["view"] == "about":
         graph.append({"@type": "AboutPage", "url": SITE + path, "name": r["title"],
                       "mainEntity": {"@id": PERSON_ID}})
@@ -211,9 +254,8 @@ def ld_for(path, r):
         graph.append({
             "@type": "ImageGallery", "name": "Singles", "url": SITE + path,
             "description": r["description"], "author": {"@id": PERSON_ID},
-            "image": [{"@type": "ImageObject", "contentUrl": SITE + it["image"],
-                       "name": it.get("title") or f"Photograph {n + 1}", "creator": {"@id": PERSON_ID}}
-                      for n, it in enumerate(singles[:20])],
+            "image": [photo_node(it["image"], it.get("alt", ""), it.get("title") or f"Photograph {n + 1}")
+                      for n, it in enumerate(singles)],
         })
     if r["view"] == "piece":
         p = pieces[r["piece"]]
@@ -224,10 +266,8 @@ def ld_for(path, r):
             "description": p.get("description") or r["description"],
             "author": {"@id": PERSON_ID},
             "image": [
-                {"@type": "ImageObject", "contentUrl": SITE + src,
-                 "name": f"{p['title']} — photograph {n + 1}",
-                 "creator": {"@id": PERSON_ID}}
-                for n, src in enumerate(flat(p.get("images", []))[:20])
+                photo_node(src, (p.get("alt") or {}).get(src, ""), f"{p['title']} — photograph {n + 1}")
+                for n, src in enumerate(flat(p.get("images", [])))
             ],
         })
     return {"@context": "https://schema.org", "@graph": graph}
@@ -305,6 +345,9 @@ def render(path, r):
     doc = fill(doc, "aboutPubs", esc(", ".join(pubs)) if with_bio else "")
     note = next((f for f in data["about"].get("facts", []) if re.search(r"assignment|print", f, re.I)), "")
     doc = fill(doc, "contactNote", esc(note) if with_contact else "")
+    doc = fill(doc, "contactRights", esc(RIGHTS.get("note", "")) if with_contact else "")
+    if r.get("noindex"):
+        doc = doc.replace('<link rel="canonical"', '<meta name="robots" content="noindex">\n<link rel="canonical"', 1)
     doc = fill(doc, "contactName", esc(name) if with_contact else "")
     doc = fill(doc, "contactRole", esc(artist.get("role", "")) if with_contact else "")
     tel = re.sub(r"[^\d+]", "", artist["phone"])
@@ -326,8 +369,12 @@ def render(path, r):
             paras = "".join(f"<p>{esc(t)}</p>" for t in re.split(r"\n\s*\n", p["description"]) if t.strip())
             body += f'<div class="piece-description">{paras}</div>'
         imgs = flat(p.get("images", []))
+        alts, caps = p.get("alt") or {}, p.get("captions") or {}
         for n, src in enumerate(imgs):
-            body += f'<img src="{esc(src)}" alt="{esc(p["title"])} — photograph {n + 1} of {len(imgs)}" loading="lazy">'
+            alt = alts.get(src) or f'{p["title"]} — photograph {n + 1} of {len(imgs)}'
+            body += f'<img src="{esc(src)}" alt="{esc(alt)}" loading="lazy">'
+            if caps.get(src):
+                body += f'<p class="photo-caption">{esc(caps[src])}</p>'
         doc = fill(doc, "pieceFrame", body)
     if r["view"] == "category":
         links = ""
@@ -395,17 +442,38 @@ seo_json = {
     p: {"title": r["title"], "description": r["description"], "image": r["image_url"]}
     for p, r in routes.items()
 }
+# photo sizes, so the page can reserve each photo's space before it loads
+sizes = {}
+for src in ([HOME_IMAGE] + [s for p in pieces for s in flat(p.get("images", []))]
+            + [it["image"] for it in singles]):
+    f = ROOT / src.lstrip("/")
+    if f.exists() and src not in sizes:
+        wh = jpeg_size(f)
+        if wh:
+            sizes[src] = list(wh)
+seo_json["_sizes"] = sizes
 (ROOT / "content/seo.json").write_text(json.dumps(seo_json, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 # ----------------------------------------------------------------- sitemap.xml
 today = datetime.date.today().isoformat()
+import hashlib
+lastmod_file = ROOT / "content/lastmod.json"
+lastmod = json.loads(lastmod_file.read_text()) if lastmod_file.exists() else {}
+for path in routes:
+    digest = hashlib.sha1((ROOT / ("index.html" if path == "/" else path.strip("/") + ".html")).read_bytes()).hexdigest()
+    if lastmod.get(path, {}).get("hash") != digest:
+        lastmod[path] = {"hash": digest, "date": today}
+lastmod = {p: v for p, v in lastmod.items() if p in routes}
+lastmod_file.write_text(json.dumps(lastmod, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 lines = ['<?xml version="1.0" encoding="UTF-8"?>',
          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
          'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
 priority = {"/": "1.0", "/work": "0.9", "/work/projects": "0.8"}
 for path, r in routes.items():
+    if r.get("noindex"):
+        continue
     loc = SITE + ("/" if path == "/" else path)
-    lines += ["  <url>", f"    <loc>{loc}</loc>", f"    <lastmod>{today}</lastmod>",
+    lines += ["  <url>", f"    <loc>{loc}</loc>", f"    <lastmod>{lastmod[path]['date']}</lastmod>",
               f"    <priority>{priority.get(path, '0.7' if r["view"] == "piece" else '0.6')}</priority>"]
     if r["view"] == "piece":
         for src in flat(pieces[r["piece"]].get("images", [])):

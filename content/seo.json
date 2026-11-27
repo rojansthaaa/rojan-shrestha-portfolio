@@ -19,6 +19,11 @@
     "description": "Photographs by Rojan Shrestha as published in international media.",
     "image": "https://rojanshrestha.com/images/tearsheet/rojan_shrestha_nepal_journalists_and_family_members_go_missing_in_flash_flood.jpg"
   },
+  "/work/singles": {
+    "title": "Singles | Rojan Shrestha",
+    "description": "Single photographs by Rojan Shrestha, photographer and photojournalist based in Kathmandu, Nepal.",
+    "image": "https://rojanshrestha.com/images/home/rojan_shrestha.jpg"
+  },
   "/about": {
     "title": "About Rojan Shrestha | Photojournalist, Kathmandu",
     "description": "Rojan Shrestha is a visual artist and photojournalist based in Kathmandu, Nepal, working across editorial, personal, and commissioned projects.",
@@ -38,5 +43,207 @@
     "title": "Bitter Sugar | Rojan Shrestha",
     "description": "The work ‘Bitter Sugar’ unveils the fragile lives of sugarcane farmers in the villages of Sarlahi district in the southern belt of Nepal.",
     "image": "https://rojanshrestha.com/images/bitter-sugar/rojan_shrestha_bitter_sugar_01.jpg"
+  },
+  "_sizes": {
+    "/images/home/rojan_shrestha.jpg": [
+      446,
+      446
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_01.jpg": [
+      1200,
+      800
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_02.jpg": [
+      1200,
+      800
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_03.jpg": [
+      800,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_04.jpg": [
+      800,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_05.jpg": [
+      800,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_07.jpg": [
+      800,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_08.jpg": [
+      800,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_09.jpg": [
+      800,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_10.jpg": [
+      800,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_11.jpg": [
+      1200,
+      800
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_12.jpg": [
+      1200,
+      800
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_13.jpg": [
+      1200,
+      800
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_14.jpg": [
+      1200,
+      800
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_15.jpg": [
+      800,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_16.jpg": [
+      266,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_17.jpg": [
+      800,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_18.jpg": [
+      800,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_19.jpg": [
+      800,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_20.jpg": [
+      1200,
+      800
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_21.jpg": [
+      1200,
+      800
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_22.jpg": [
+      1200,
+      800
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_23.jpg": [
+      1200,
+      800
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_24.jpg": [
+      800,
+      1200
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_25.jpg": [
+      1200,
+      800
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_26.jpg": [
+      1200,
+      800
+    ],
+    "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_27.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_01.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_02.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_03.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_04.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_05.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_06.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_07.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_08.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_09.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_10.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_11.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_12.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_13.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_14.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_15.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_16.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_17.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_18.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_19.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_20.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_21.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_22.jpg": [
+      1200,
+      800
+    ],
+    "/images/bitter-sugar/rojan_shrestha_bitter_sugar_24.jpg": [
+      1200,
+      800
+    ]
   }
 }

@@ -14,6 +14,12 @@
       "behance": "https://www.behance.net/rojansthaaa",
       "imagepasal": "https://imagepasal.com/photographer/rojan/",
       "x": "https://x.com/Rojansthaaa"
+    },
+    "rights": {
+      "credit": "Rojan Shrestha",
+      "copyright": "© Rojan Shrestha. All rights reserved.",
+      "licensePage": "/contact",
+      "note": "All photographs © Rojan Shrestha. For licensing, prints or assignments, write to the address above."
     }
   },
   "home": {
@@ -32,11 +38,31 @@
       "NurPhoto (contributor)"
     ],
     "workshops": [
-      { "title": "Photo.Circle Fellowship Workshop", "place": "Nepal", "year": "2026" },
-      { "title": "International Storytelling Program", "place": "Oslo Metropolitan University, Norway", "year": "2021" },
-      { "title": "International Photography Program", "place": "Pathshala South Asian Media Institute, Bangladesh", "year": "2020" },
-      { "title": "A Day in a Life Workshop", "place": "Photo Kathmandu, Nepal", "year": "2019" },
-      { "title": "Intro to Storytelling", "place": "Photo.Circle, Nepal", "year": "2018" }
+      {
+        "title": "Photo.Circle Fellowship Workshop",
+        "place": "Nepal",
+        "year": "2026"
+      },
+      {
+        "title": "International Storytelling Program",
+        "place": "Oslo Metropolitan University, Norway",
+        "year": "2021"
+      },
+      {
+        "title": "International Photography Program",
+        "place": "Pathshala South Asian Media Institute, Bangladesh",
+        "year": "2020"
+      },
+      {
+        "title": "A Day in a Life Workshop",
+        "place": "Photo Kathmandu, Nepal",
+        "year": "2019"
+      },
+      {
+        "title": "Intro to Storytelling",
+        "place": "Photo.Circle, Nepal",
+        "year": "2018"
+      }
     ],
     "bio": "Rojan Shrestha is a visual artist and photojournalist based in Kathmandu, Nepal, working across editorial, personal, and commissioned projects. Working primarily with the photographic image, his practice moves between documentary attention and more conceptual, staged work, across themes of memory, technology, identity, and space. Apart from his personal work, he has worked with Pahilo Post and Bizmandu, and contributes to NurPhoto, with work published by The Times UK, BBC, CNN, The Guardian, and The Wall Street Journal. As a photojournalist he covers politics, protest, social issues, and disaster in Nepal."
   },
@@ -96,7 +122,35 @@
       "description": "As technology advances, a new reality unfolds—a parallel universe known as the Metaverse, a virtual world that offers boundless opportunities yet poses a silent threat to human connection. In this space, people are drawn away from tangible interactions, spending more time in immersive digital environments that fulfill every social and personal need. The allure of the virtual world becomes so compelling that the physical world begins to feel distant, like a strange planet, leaving individuals confined to rooms that become their entire worlds. Through the lens of one individual's experience, this series explores the consequences of our growing dependence on immersive technologies that tempt us to forsake tangible reality for meticulously crafted digital environments. By blurring the boundaries between the physical and the virtual, these images explore how, despite advancements meant to connect us, technology may instead entrap us, severing the ties to our shared humanity. Are these shifts inevitable? And what happens when the allure of limitless digital freedom undermines our authentic connections?",
       "modelEnd": "/models/if-you-could-do-it-all-again-2.glb",
       "category": "projects",
-      "metaDescription": "Photographic series by Rojan Shrestha exploring the consequences of our growing dependence on immersive technologies."
+      "metaDescription": "Photographic series by Rojan Shrestha exploring the consequences of our growing dependence on immersive technologies.",
+      "alt": {
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_01.jpg": "3D scan of a man's head and bare shoulders, shown as a point cloud inside a transparent box.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_02.jpg": "3D scan of a standing figure on a green, red-flecked ground inside a transparent box.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_03.jpg": "A smooth white egg lit from the side against a black background.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_04.jpg": "A white satellite dish seen face-on, its ribs radiating from a central mount and ring.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_05.jpg": "A shirtless man in a white VR headset and sensor gloves crouches on white bedding against a white wall.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_07.jpg": "Two deer stand on a dark hilltop at night beside two small trees.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_08.jpg": "Red and purple light trails from passing traffic on a night road, beside a wall and an electricity pylon.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_09.jpg": "A hand held inside a soap bubble against a purple background, with colour refracting on its surface.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_10.jpg": "A glitched, pixel-smeared abstract image in blue, yellow, red and grey.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_11.jpg": "Young men crowd the foreground of a white arched room with black bags hanging from the ceiling and a security camera.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_12.jpg": "A group portrait of villagers in colourful clothes in front of a weathered stone house, with a lamb in front.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_13.jpg": "The same group portrait with parts of the scene blanked out in white rectangles.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_14.jpg": "An empty gravel road between green trees, with part of the scene blanked out in a white rectangle.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_15.jpg": "Several artificial eyeballs in a clear plastic bag tied with a green tie, on a pale background.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_16.jpg": "Three stacked night scenes in blue and red light showing people seated at a table.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_17.jpg": "A man lying on a bed wears a VR headset and a sensor glove, one hand raised.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_18.jpg": "A small pink bird perches on bare, red-lit branches against black.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_19.jpg": "A figure lies on a red-lit mat beneath a glowing blue tree at night.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_20.jpg": "Blue-lit flowering plants with a glowing orange and yellow centre, in intense false colour.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_21.jpg": "Two people in a dark, red-lit room, one with a glowing face, with city lights in the window behind.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_22.jpg": "A shirtless young man in a white VR headset sits on a bed against a grey wall, head tilted down.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_23.jpg": "3D scan of a small fruit tree on a grey ground inside a transparent box.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_24.jpg": "Branches and leaves of a tree lit red against a grey sky.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_25.jpg": "A sideways abstract image of a figure in red, surrounded by scattered white dots over blue and red.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_26.jpg": "A silhouetted figure stands against a red glow on the horizon of a dark field, with a second shadowy figure lit in front.",
+        "/images/if-you-could-do-it-all-again/rojan_shrestha_if_you_could_do_it_all_again_27.jpg": "3D scan of two figures standing on red-tinted ground inside a transparent box."
+      }
     },
     {
       "title": "Bitter Sugar",
@@ -128,7 +182,32 @@
       ],
       "category": "projects",
       "description": "In the midst of sweet sugarcane growing rigid and tall, the work ‘Bitter Sugar’ unveils the fragile lives of sugarcane farmers in the villages of Sarlahi district in the southern belt of Nepal.\n\nBitter sugar explores their relationship with their land, the burden of the debt, and the slowness of justice. Through the work, one sees that despite the callous disregard towards the hardships of the farmers and their families, they stand in resilience getting by each day working and being in togetherness.",
-      "metaDescription": "The work ‘Bitter Sugar’ unveils the fragile lives of sugarcane farmers in the villages of Sarlahi district in the southern belt of Nepal."
+      "metaDescription": "The work ‘Bitter Sugar’ unveils the fragile lives of sugarcane farmers in the villages of Sarlahi district in the southern belt of Nepal.",
+      "alt": {
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_01.jpg": "Cattle and silhouetted men in the foreground at night, with a brightly lit factory glowing in the mist behind.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_02.jpg": "Portrait of an elderly bearded man in an orange shirt, lit from the front against a dark background.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_03.jpg": "A person bends among tall sugarcane in a field, with cut cane on the ground.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_04.jpg": "The curved, grey, textured back of a large animal in near darkness.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_05.jpg": "A misty village lane between pastel green houses, with a figure walking in the distance.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_06.jpg": "A woman nurses a baby by a lamp in a dim home while a child in a hooded jacket stands nearby.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_07.jpg": "Conical haystacks in a hazy field.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_08.jpg": "A man in a white turban and yellow vest sits on a black water buffalo in front of a blue-green wall.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_09.jpg": "Metal frames stand in a misty empty field beside a dirt track.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_10.jpg": "Two cattle nuzzle in front of a misty building with a tarpaulin roof.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_11.jpg": "A crowd gathers in a circle around a performer bending over a stool, with a drummer in the foreground.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_12.jpg": "A lone figure stands in a dark yard in front of a floodlit factory with steam rising.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_13.jpg": "A couple in red wedding clothes under a decorated canopy lit by a bright bulb, surrounded by women.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_14.jpg": "An elderly woman kisses and holds the cheek of a baby in a red and green knitted cap.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_15.jpg": "A man lies asleep on straw with his sandals beside him.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_16.jpg": "A man guides two oxen across a field of cut cane while a woman in pink walks past.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_17.jpg": "A scarecrow with a pink cloth stands in a cabbage field at dusk.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_18.jpg": "A person on a ladder carries a bundle to the roof of a blue house, with a calf, a goat and a cow nearby.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_19.jpg": "Two black goats rest on concrete steps in front of a brick wall.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_20.jpg": "Two large trees side by side in a green field under a hazy sky.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_21.jpg": "Men in a dark crowd cheer with raised arms, one smiling, lit by a bright flash.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_22.jpg": "A man leads a decorated horse along a muddy track in front of a misty, weathered building.",
+        "/images/bitter-sugar/rojan_shrestha_bitter_sugar_24.jpg": "A man in a shawl stands in a factory at night before a large crane loading cut sugarcane."
+      }
     }
   ],
   "tearsheet": [],

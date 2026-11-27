@@ -1,0 +1,23 @@
+name: Tell Bing about changed pages
+
+# After the website changes, send the changed page addresses to IndexNow
+# (Bing, Yandex, Seznam, Naver, Yep). Uploads published by the
+# "Publish new stories and photos" workflow send their own notice.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "sitemap.xml"
+  workflow_dispatch:
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Wait for GitHub Pages to publish the change
+        run: sleep 120
+      - name: Send the changed pages
+        run: python3 tools/indexnow.py "${{ github.event.before }}"

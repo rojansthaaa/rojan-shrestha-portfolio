@@ -24,6 +24,21 @@ A blank line starts a new paragraph.
 
 The text is optional. Without `story.txt` the folder name is used as the title.
 
+- **Captions (optional): a text file called `captions.txt`**, one line per
+  photo, starting with the photo's number:
+
+```
+01: Sarlahi, 2023. Farmers wait with their cattle outside the sugar mill at night.
+03: A farmer cuts sugarcane before sunrise.
+03a: Left photo of a pair.
+```
+
+Each caption is shown in small grey text under its photo, and Google uses it
+to understand the photo. Write what, where and when; no lists of keywords.
+You can add or change captions later by editing `captions.txt` on GitHub.
+
+Your name, credit and copyright are written into every photo automatically.
+
 ## 2. Upload it
 
 1. Open the **projects** folder (for personal projects) or the **editorial**
