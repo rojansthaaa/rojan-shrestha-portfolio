@@ -375,6 +375,16 @@
     will-change: transform;
   }
   #peek.on { opacity: 1; }
+  /* the trail: photos left behind by the moving pointer, fading out */
+  .peek-ghost {
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    animation: ghost-fade 0.45s ease-out forwards;
+  }
+  @keyframes ghost-fade { from { opacity: 0.9; } to { opacity: 0; } }
+  @media (hover: none) { .peek-ghost { display: none; } }
   @media (hover: none) { #peek { display: none; } }
 
   /* small text card that follows the cursor over About / Contact */
@@ -1273,10 +1283,40 @@
   function activePicker() {
     return hoverPick || (ambient && !calm.matches ? nextWorkPhoto : null);
   }
+  // trail: the photo being replaced stays where it was and fades out, so a
+  // moving pointer leaves a short trail of photographs behind it
+  const TRAIL_MAX = 16;
+  const ghosts = [];
+  function leaveGhost() {
+    if (calm.matches || !peek.complete || !peek.naturalWidth) return;
+    const r = peek.getBoundingClientRect();
+    if (!r.width) return;
+    const g = document.createElement('img');
+    g.className = 'peek-ghost';
+    g.alt = '';
+    g.setAttribute('aria-hidden', 'true');
+    g.src = peek.currentSrc || peek.src;
+    g.style.width = r.width + 'px';
+    g.style.height = r.height + 'px';
+    g.style.transform = 'translate(' + Math.round(r.left) + 'px,' + Math.round(r.top) + 'px)';
+    g.style.zIndex = getComputedStyle(peek).zIndex;   // same layer as the live photo
+    const drop = () => {
+      g.remove();
+      const k = ghosts.indexOf(g);
+      if (k >= 0) ghosts.splice(k, 1);
+    };
+    g.addEventListener('animationend', drop);
+    setTimeout(drop, 1500);   // safety net if the fade is interrupted (e.g. a background tab)
+    peek.before(g);
+    ghosts.push(g);
+    if (ghosts.length > TRAIL_MAX) ghosts.shift().remove();
+  }
+
   function showPhoto(pick, e) {
     const src = pick();
     if (!src) { hidePeek(); return; }
     const wasOn = peekEl === peek && peek.classList.contains('on');
+    if (wasOn && !e) leaveGhost();   // a swap while moving (not the first photo)
     peekCard.classList.remove('on');
     peekEl = peek;
     peek.src = src;
