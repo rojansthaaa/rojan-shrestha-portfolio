@@ -448,6 +448,8 @@
     letter-spacing: 0;
   }
   .cat-empty { margin: 0; font-size: 0.86rem; color: var(--muted); }
+  /* the section pages start a little lower, so the title stays clear of the back arrow */
+  .view[data-view="category"], .view[data-view="tearsheet"], .view[data-view="singles"] { padding-top: 44px; }
 
   /* ---------- projects: a calm index with a large preview ---------- */
   .cat-layout {
@@ -491,7 +493,7 @@
     gap: clamp(32px, 5vw, 80px);
     align-items: start;
   }
-  .ts-side { position: sticky; top: 0; }
+  .ts-side { position: sticky; top: 44px; }   /* same height as at the start, below the back arrow */
   .ts-side .cat-label { margin-bottom: 26px; }
   .ts-filters { font-size: 12px; line-height: 1.42; }
   .ts-filters[hidden] { display: none; }
