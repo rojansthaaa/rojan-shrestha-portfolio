@@ -1076,7 +1076,7 @@
   // Hovering a Work line shows that section's photos only (Tearsheet only
   // there); everywhere else it is Projects, Editorial and Singles.
   // About / Contact show a small text card instead.
-  const SWAP_PX = 4, SWAP_MS = 60, WARM_AHEAD = 8;
+  const SWAP_PX = 3, SWAP_MS = 30, WARM_AHEAD = 24;
   const fineHover = matchMedia('(hover: hover) and (pointer: fine)');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
   let ambient = false;   // set by showView: true on Home, Work, About and Contact
@@ -1156,8 +1156,8 @@
 
   // A shuffled "bag" of photos: every photo is shown once (random order)
   // before any repeat, and never the same one twice in a row.
-  // The next few photos are loaded in advance; ready() says whether the next
-  // one has arrived, so a fast-moving pointer never flashes a half-loaded photo.
+  // The next WARM_AHEAD photos are loaded in advance; ready() says whether one
+  // of them has arrived, so a fast-moving pointer never flashes a half-loaded photo.
   const loadedPhotos = new Set(), warmedPhotos = new Set();
   function warmPhoto(src) {
     if (!src || warmedPhotos.has(src)) return;
@@ -1178,17 +1178,24 @@
       if (all.length > 1 && all[all.length - 1] === last) all.unshift(all.pop());
       bag = all;
     }
+    // the next photo to show: the nearest one in the bag that has already
+    // loaded, so fast movement never waits for a slow one (-1: none yet)
+    function loadedIndex() {
+      for (let j = bag.length - 1; j >= Math.max(0, bag.length - WARM_AHEAD); j--)
+        if (loadedPhotos.has(bag[j]) && bag[j] !== last) return j;
+      return -1;
+    }
     const pick = () => {
       if (!bag.length) refill();
-      last = bag.pop() || '';
+      const k = loadedIndex();
+      last = (k < 0 ? bag.pop() : bag.splice(k, 1)[0]) || '';
       bag.slice(-WARM_AHEAD).forEach(warmPhoto);
       return last;
     };
     pick.ready = () => {
       if (!bag.length) refill();
-      const next = bag[bag.length - 1];
-      warmPhoto(next);
-      return !next || loadedPhotos.has(next);
+      bag.slice(-WARM_AHEAD).forEach(warmPhoto);
+      return !bag.length || loadedIndex() >= 0;
     };
     return pick;
   }
