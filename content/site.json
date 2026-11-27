@@ -31,6 +31,13 @@
       "Bizmandu",
       "NurPhoto (contributor)"
     ],
+    "workshops": [
+      { "title": "Photo.Circle Fellowship Workshop", "place": "Nepal", "year": "2026" },
+      { "title": "International Storytelling Program", "place": "Oslo Metropolitan University, Norway", "year": "2021" },
+      { "title": "International Photography Program", "place": "Pathshala South Asian Media Institute, Bangladesh", "year": "2020" },
+      { "title": "A Day in a Life Workshop", "place": "Photo Kathmandu, Nepal", "year": "2019" },
+      { "title": "Intro to Storytelling", "place": "Photo.Circle, Nepal", "year": "2018" }
+    ],
     "bio": "Rojan Shrestha is a visual artist and photojournalist based in Kathmandu, Nepal, working across editorial, personal, and commissioned projects. Working primarily with the photographic image, his practice moves between documentary attention and more conceptual, staged work, across themes of memory, technology, identity, and space. Apart from his personal work, he has worked with Pahilo Post and Bizmandu, and contributes to NurPhoto, with work published by The Times UK, BBC, CNN, The Guardian, and The Wall Street Journal. As a photojournalist he covers politics, protest, social issues, and disaster in Nepal."
   },
   "workCategories": [

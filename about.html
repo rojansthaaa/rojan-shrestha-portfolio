@@ -714,7 +714,7 @@
   }
   .about-cols {
     display: grid;
-    grid-template-columns: 1.5fr 1.2fr 1fr 0.8fr;
+    grid-template-columns: 1.35fr 1.1fr 1.1fr 0.95fr 0.7fr;
     gap: clamp(24px, 3.2vw, 48px);
     margin-top: clamp(48px, 9vh, 110px);
     font-size: 13px;
@@ -724,6 +724,9 @@
   .about-cols p { margin: 0; }
   .about-cols p + .caps-label { margin-top: 22px; }
   .about-links a { display: table; }
+  .about-workshops .ws + .ws { margin-top: 12px; }
+  .about-workshops .ws span { display: block; }
+  .about-workshops .ws .ws-where { color: var(--muted); }
 
   /* ---------- small screens ---------- */
   @media (max-width: 900px) {
@@ -848,6 +851,7 @@
     <div class="about-cols">
       <div><h2 class="caps-label">About</h2><p class="about-bio" id="aboutBio">Working primarily with the photographic image, his practice moves between documentary attention and more conceptual, staged work, across themes of memory, technology, identity, and space. Apart from his personal work, he has worked with Pahilo Post and Bizmandu, and contributes to NurPhoto, with work published by The Times UK, BBC, CNN, The Guardian, and The Wall Street Journal. As a photojournalist he covers politics, protest, social issues, and disaster in Nepal.</p></div>
       <div><h2 class="caps-label">Published in</h2><p id="aboutPubs">11FREUNDE, Agência Brasil, Amnesty International, BBC, BBC Science Focus, Bors, Business AM, Claudia, CNN, Courrier International, Dialogue Earth, E+Z, Human Rights Watch, IFEX, Index, Interfax, Mezha, NBC News, New Lines Magazine, Onet Podróże, RTVI, South Asian Voices, Tampa Bay Times, taz, The Guardian, The i Paper, The Standard, The Times, Vokrug Sveta</p></div>
+      <div><h2 class="caps-label">Workshops / Fellowship</h2><div class="about-workshops" id="aboutWorkshops"><div class="ws"><span class="ws-title">Photo.Circle Fellowship Workshop</span><span class="ws-where">Nepal — 2026</span></div><div class="ws"><span class="ws-title">International Storytelling Program</span><span class="ws-where">Oslo Metropolitan University, Norway — 2021</span></div><div class="ws"><span class="ws-title">International Photography Program</span><span class="ws-where">Pathshala South Asian Media Institute, Bangladesh — 2020</span></div><div class="ws"><span class="ws-title">A Day in a Life Workshop</span><span class="ws-where">Photo Kathmandu, Nepal — 2019</span></div><div class="ws"><span class="ws-title">Intro to Storytelling</span><span class="ws-where">Photo.Circle, Nepal — 2018</span></div></div></div>
       <div><h2 class="caps-label">Worked with</h2><p id="aboutWorked">Pahilo Post<br>Bizmandu<br>NurPhoto (contributor)</p><h2 class="caps-label">Practice</h2><p class="about-facts" id="aboutFacts">Photojournalist, based in Kathmandu, Nepal<br>Working across editorial, personal, and commissioned projects<br>Available for assignments &amp; prints</p></div>
       <div><h2 class="caps-label">Elsewhere</h2><p class="about-links text-links" id="aboutLinks"></p></div>
     </div>
@@ -1665,6 +1669,14 @@
       };
       lines(document.getElementById('aboutFacts'), data.about.facts || []);
       lines(document.getElementById('aboutWorked'), data.about.workedWith || []);
+      const ws = document.getElementById('aboutWorkshops');
+      ws.textContent = '';
+      (data.about.workshops || []).forEach(w => {
+        const item = el('div', 'ws');
+        item.appendChild(el('span', 'ws-title', w.title));
+        item.appendChild(el('span', 'ws-where', [w.place, w.year].filter(Boolean).join(' — ')));
+        ws.appendChild(item);
+      });
       // every publication from the Tearsheet, A to Z
       const pubs = Array.from(new Set(tearsheet.map(t => t.publication).filter(Boolean)))
         .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));

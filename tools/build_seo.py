@@ -296,6 +296,11 @@ def render(path, r):
     doc = fill(doc, "aboutBio", esc(rest) if with_bio else "")
     doc = fill(doc, "aboutFacts", "<br>".join(esc(f) for f in data["about"].get("facts", [])) if with_bio else "")
     doc = fill(doc, "aboutWorked", "<br>".join(esc(f) for f in data["about"].get("workedWith", [])) if with_bio else "")
+    workshops = "".join(
+        f'<div class="ws"><span class="ws-title">{esc(w["title"])}</span>'
+        f'<span class="ws-where">{esc(" — ".join(x for x in (w.get("place"), w.get("year")) if x))}</span></div>'
+        for w in data["about"].get("workshops", []))
+    doc = fill(doc, "aboutWorkshops", workshops if with_bio else "")
     pubs = sorted({t["publication"] for t in data.get("tearsheet", []) if t.get("publication")}, key=str.lower)
     doc = fill(doc, "aboutPubs", esc(", ".join(pubs)) if with_bio else "")
     note = next((f for f in data["about"].get("facts", []) if re.search(r"assignment|print", f, re.I)), "")
