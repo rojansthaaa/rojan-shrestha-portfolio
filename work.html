@@ -373,7 +373,7 @@
     left: 0;
     top: 0;
     pointer-events: none;
-    animation: ghost-fade 0.45s ease-out forwards;
+    animation: ghost-fade 0.9s ease-out forwards;
   }
   @keyframes ghost-fade { from { opacity: 0.9; } to { opacity: 0; } }
   @media (hover: none) { .peek-ghost { display: none; } }
@@ -1261,7 +1261,7 @@
   // Hovering a Work line shows that section's photos only (Tearsheet only
   // there); everywhere else it is Projects, Editorial and Singles.
   // About / Contact show a small text card instead.
-  const SWAP_PX = 3, SWAP_MS = 30, WARM_AHEAD = 24;
+  const SWAP_PX = 6, SWAP_MS = 55, WARM_AHEAD = 24;   // about 18 photos a second at most
   const fineHover = matchMedia('(hover: hover) and (pointer: fine)');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
   let ambient = false;   // set by showView: true on Home, Work, About and Contact
@@ -1277,7 +1277,7 @@
   }
   // trail: the photo being replaced stays where it was and fades out, so a
   // moving pointer leaves a short trail of photographs behind it
-  const TRAIL_MAX = 16;
+  const TRAIL_MAX = 20;
   const ghosts = [];
   function leaveGhost() {
     if (calm.matches || !peek.complete || !peek.naturalWidth) return;
@@ -1298,7 +1298,7 @@
       if (k >= 0) ghosts.splice(k, 1);
     };
     g.addEventListener('animationend', drop);
-    setTimeout(drop, 1500);   // safety net if the fade is interrupted (e.g. a background tab)
+    setTimeout(drop, 2000);   // safety net if the fade is interrupted (e.g. a background tab)
     peek.before(g);
     ghosts.push(g);
     if (ghosts.length > TRAIL_MAX) ghosts.shift().remove();
