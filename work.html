@@ -1620,11 +1620,10 @@
     const pubs = Array.from(counts.entries()).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
     filters.hidden = pubs.length < 2;
     if (pubs.length > 1) {
-      [['All', tearsheet.length]].concat(pubs).forEach(([name, n]) => {
+      [['All']].concat(pubs).forEach(([name]) => {
         const f = el('button');
         f.type = 'button';
         f.appendChild(el('span', null, name));
-        f.appendChild(el('span', null, String(n)));
         f.setAttribute('aria-pressed', name === 'All' ? 'true' : 'false');
         f.addEventListener('click', () => {
           filters.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', 'false'));
