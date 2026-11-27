@@ -284,11 +284,12 @@
     animation: rise 0.5s ease both;
   }
   body:has(#view-home.active) .home-name { display: block; }
-  /* home only: the photo that follows the pointer passes behind the main
-     photo and the big name (the empty white page stays below it) */
-  body:has(#view-home.active) #peek { z-index: 1; }
-  body:has(#view-home.active) #view-home { position: relative; z-index: 3; }
-  body:has(#view-home.active) .home-name { z-index: 3; }
+  /* the photo that follows the pointer passes behind the page's text and
+     photos (the empty white page stays below it). Story pages keep it on
+     top, so it never disappears behind the full-screen opening photograph. */
+  .view.active { position: relative; z-index: 3; }
+  .home-name { z-index: 3; }
+  body:has(#view-piece.active) #peek { z-index: 40; }
   body:has(#view-home.active) .chrome { padding-bottom: calc(var(--name-h) + 34px); }
   body:has(#view-home.active) main#stage { padding-bottom: calc(var(--name-h) + 80px); }
 
@@ -412,7 +413,7 @@
     max-width: min(20vw, 240px);
     max-height: min(20vw, 240px);
     pointer-events: none;
-    z-index: 40;
+    z-index: 1;   /* behind the page's text and photos (see the home section) */
     opacity: 0;
     transition: opacity 0.3s ease;
     will-change: transform;
