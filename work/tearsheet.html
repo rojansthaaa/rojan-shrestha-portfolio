@@ -148,11 +148,6 @@
   a { color: inherit; text-decoration: none; }
   button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; padding: 0; }
 
-  /* circle cursor: a small dot, and a ring over anything clickable
-     (the browser's own cursor, so it never lags behind the mouse) */
-  html { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='5.5' fill='%23111' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, auto; }
-  a, button, [role="button"] { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Ccircle cx='18' cy='18' r='13' fill='none' stroke='white' stroke-width='3.5'/%3E%3Ccircle cx='18' cy='18' r='13' fill='none' stroke='%23111' stroke-width='1.5'/%3E%3C/svg%3E") 18 18, pointer; }
-
   /* discourage casual saving of photos: no dragging them out, no long-press
      "save image" on phones (the right-click menu is blocked in the script) */
   img, model-viewer, canvas {
