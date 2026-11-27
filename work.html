@@ -476,29 +476,27 @@
     align-items: start;
   }
   .cat-layout[hidden] { display: none; }
-  .phead, .prow { display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; column-gap: 12px; }
-  .phead { padding-bottom: 14px; border-bottom: 1px solid #e7e7e4; }
-  .phead span { margin: 0; }
+  .stories { border-top: 1px solid #e7e7e4; }
   .prow {
+    display: block;
     padding: 20px 0 22px;
     border-bottom: 1px solid #e7e7e4;
     color: var(--ink);
     transition: color 0.35s ease;
   }
-  .prow .pn { padding-top: 0.9em; font-size: 12px; color: var(--muted); }
   .prow .pt {
+    display: block;
     font-family: "Instrument Serif", "Times New Roman", serif;
     font-size: clamp(34px, 4.1vw, 60px);
     line-height: 1.05;
   }
-  .prow .pc { padding-top: 0.9em; font-size: 12px; white-space: nowrap; }
   @media (hover: hover) {
-    .stories:has(.prow.on) .prow:not(.on) .pt,
-    .stories:has(.prow.on) .prow:not(.on) .pc { color: #c9c9c5; }
+    .stories:has(.prow.on) .prow:not(.on) .pt { color: #c9c9c5; }
   }
-  .prow .pstrip { grid-column: 2 / -1; display: none; gap: 6px; margin-top: 16px; }
+  /* strip of the story's photos, kept inside the list (never under the preview) */
+  .prow .pstrip { display: none; gap: 6px; margin-top: 16px; overflow: hidden; }
   .prow.on .pstrip { display: flex; }
-  .pstrip img { width: 86px; height: 57px; object-fit: cover; display: block; background: var(--paper); }
+  .pstrip img { flex: 0 0 auto; width: 86px; height: 57px; object-fit: cover; display: block; background: var(--paper); }
   .cat-preview { position: sticky; top: 0; margin: 0; }   /* stays in view while the list scrolls */
   .cat-preview img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; background: var(--paper); }
   .cat-preview figcaption { margin-top: 10px; font-size: 12px; color: var(--muted); }
@@ -794,7 +792,6 @@
     }
     .work-index a { --wi-fs: 15.5vw; }
     .view.wide { padding-top: 48px; }   /* clear of the top corner links */
-    .phead, .prow { grid-template-columns: 40px minmax(0, 1fr) auto; }
     .opener .piece-title { font-size: 19vw; }
     .opener .piece-title.long { font-size: 13vw; }
     .about-cols { grid-template-columns: 1fr; }
@@ -841,7 +838,6 @@
     <h1 class="cat-label" id="catLabel"></h1>
     <div class="cat-layout" id="catLayout">
       <div class="ptable">
-        <div class="phead"><span class="caps-label">No.</span><span class="caps-label">Title</span><span class="caps-label">Photographs</span></div>
         <div class="stories" id="catStories"></div>
       </div>
       <figure class="cat-preview" id="catPreview"><img alt=""><figcaption></figcaption></figure>
@@ -1485,14 +1481,12 @@
       if (pImg.getAttribute('src') !== coverOf(i)) pImg.src = coverOf(i);
       pCap.textContent = pieces[i].title;
     }
-    ids.forEach((i, k) => {
+    ids.forEach(i => {
       const p = pieces[i];
       const imgs = flatImages(p);
       const a = el('a', 'prow');
       a.href = piecePath(i);
-      a.appendChild(el('span', 'pn', String(k + 1).padStart(2, '0')));
       a.appendChild(el('span', 'pt', p.title));
-      a.appendChild(el('span', 'pc', imgs.length + (p.model || p.modelEnd ? ' · 3D scans' : '')));
       const strip = el('span', 'pstrip');
       imgs.filter(src => src !== coverOf(i)).slice(0, 7).forEach(src => {
         const t = el('img');
