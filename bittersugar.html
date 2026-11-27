@@ -467,6 +467,11 @@
     animation: rise 0.5s ease both;
   }
   body:has(#view-home.active) .home-name { display: block; }
+  /* home only: the photo that follows the pointer passes behind the main
+     photo and the big name (the empty white page stays below it) */
+  body:has(#view-home.active) #peek { z-index: 1; }
+  body:has(#view-home.active) #view-home { position: relative; z-index: 3; }
+  body:has(#view-home.active) .home-name { z-index: 3; }
   body:has(#view-home.active) .chrome { padding-bottom: calc(var(--name-h) + 34px); }
   body:has(#view-home.active) main#stage { padding-bottom: calc(var(--name-h) + 80px); }
 
