@@ -288,8 +288,18 @@ def render(path, r):
     doc = fill(doc, "homeHeading", esc(f"{name} \u2014 Photographer and photojournalist in Kathmandu, Nepal") if is_home else "")
     doc = fill(doc, "workHeading", esc(f"{name} \u2014 Work") if view == "work" else "")
     doc = fill(doc, "aboutHeading", esc(f"About {name}") if with_bio else "")
-    doc = fill(doc, "aboutBio", esc(data["about"]["bio"]) if with_bio else "")
+    # About: the bio's first sentence is the large statement, the rest sits below
+    bio = data["about"]["bio"]
+    m = re.match(r"^(.+?\.)\s+(.*)$", bio, re.S)
+    statement, rest = (m.group(1), m.group(2)) if m else (bio, "")
+    doc = fill(doc, "aboutStatement", esc(statement) if with_bio else "")
+    doc = fill(doc, "aboutBio", esc(rest) if with_bio else "")
     doc = fill(doc, "aboutFacts", "<br>".join(esc(f) for f in data["about"].get("facts", [])) if with_bio else "")
+    doc = fill(doc, "aboutWorked", "<br>".join(esc(f) for f in data["about"].get("workedWith", [])) if with_bio else "")
+    pubs = sorted({t["publication"] for t in data.get("tearsheet", []) if t.get("publication")}, key=str.lower)
+    doc = fill(doc, "aboutPubs", esc(", ".join(pubs)) if with_bio else "")
+    note = next((f for f in data["about"].get("facts", []) if re.search(r"assignment|print", f, re.I)), "")
+    doc = fill(doc, "contactNote", esc(note) if with_contact else "")
     doc = fill(doc, "contactName", esc(name) if with_contact else "")
     doc = fill(doc, "contactRole", esc(artist.get("role", "")) if with_contact else "")
     tel = re.sub(r"[^\d+]", "", artist["phone"])
@@ -317,7 +327,7 @@ def render(path, r):
     if r["view"] == "category":
         links = ""
         for i in category_pieces(r["category"]):
-            links += f'<a class="story" href="{piece_path(i)}"><span class="title">{esc(pieces[i]["title"])}</span></a>'
+            links += f'<a class="prow" href="{piece_path(i)}"><span class="pt">{esc(pieces[i]["title"])}</span></a>'
         doc = fill(doc, "catStories", links)
         doc = fill(doc, "catLabel", esc(categories[r["category"]]["label"]))
 
