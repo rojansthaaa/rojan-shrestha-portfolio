@@ -366,9 +366,11 @@
     position: fixed;
     left: 0;
     top: 0;
-    width: min(20vw, 240px);
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
+    /* each photo keeps its own shape: the longer side is at most 240px */
+    width: auto;
+    height: auto;
+    max-width: min(20vw, 240px);
+    max-height: min(20vw, 240px);
     pointer-events: none;
     z-index: 40;
     opacity: 0;
